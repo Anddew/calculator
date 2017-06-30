@@ -1,7 +1,7 @@
 package calculator;
 
-import calculator.operations.IOperation;
-import calculator.operations.Operations;
+import calculator.operations.Operation;
+import calculator.operations.ListOperations;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,21 +11,57 @@ public class ArgumentConsoleReader {
 
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public Argument readArgumentConsole() throws IOException {
-        Argument result = new Argument();
+    /**
+    public CalcArgumentsContainer readArgumentConsole() throws IOException {
         System.out.println("Input first argument...");
-        result.setFirstArgument(Double.parseDouble(reader.readLine()));
+        double firstArgument = Double.parseDouble(reader.readLine());
         System.out.println("Choose operation...");
-        result.setOperation(chooseOperation());
+        IOperation operation = chooseOperation();
         System.out.println("Input second argument...");
-        result.setSecondArgument(Double.parseDouble(reader.readLine()));
+        double secondArgument = Double.parseDouble(reader.readLine());
+        return new CalcArgumentsContainer(firstArgument, operation, secondArgument);
+    }
+     */
+
+    public CalcArgumentsContainer readArgumentsConsole() throws IOException {
+        System.out.println("Input math expression like +(1 2 3) or *(8 3 2.5)");
+        String expression = reader.readLine();
+
+        if (expression.charAt(1) != '(' || expression.charAt(expression.length() - 1) != ')') {
+            throw new IllegalArgumentException("Invalid input");
+        }
+
+        Operation operation = chooseOperation(expression.charAt(0));
+        String argumentsString = expression.substring(2, expression.length() - 1);
+        double[] arguments = obtainArgumentsArray(argumentsString);
+        return new CalcArgumentsContainer(arguments, operation);
+    }
+
+    private double[] obtainArgumentsArray(String expression) {
+        String[] valuesString = expression.split(" ");
+        if (valuesString.length > 20) {
+            throw new IllegalArgumentException("Input not more than 20 arguments");
+        }
+        double[] result = new double[valuesString.length];
+        for(int i = 0; i < result.length; i++) {
+            result[i] = Double.parseDouble(valuesString[i]);
+        }
         return result;
     }
-    
-    private IOperation chooseOperation() throws IOException {
-        Operations operations = new Operations();
+
+    private Operation chooseOperation(char check) {
+        ListOperations listOperations = new ListOperations();
+        for (Operation elem: listOperations.getListOperations()) {
+            if (elem.getSign() == check)
+                return elem;
+        }
+        throw new IllegalArgumentException("Invalid math sign");
+    }
+
+    private Operation chooseOperation() throws IOException {
+        ListOperations listOperations = new ListOperations();
         byte operationNumber = 0;
-        for(IOperation elem: operations.getListOperations()) {
+        for(Operation elem: listOperations.getListOperations()) {
             System.out.println("Type " + operationNumber++ + " to use operation - " + elem.getClass().getName());
         }
         byte chosenOperation = Byte.parseByte(reader.readLine());
@@ -33,7 +69,7 @@ public class ArgumentConsoleReader {
             System.out.println("Invalid input number for choosing operation");
             throw new IllegalArgumentException();
         }
-        return operations.getListOperations().get(chosenOperation);
+        return listOperations.getListOperations().get(chosenOperation);
     }
 
 }

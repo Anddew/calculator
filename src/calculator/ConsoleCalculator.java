@@ -15,11 +15,9 @@ public class ConsoleCalculator {
     }
 
     public void startConsoleCalculator() throws IOException {
-        writer.writeToConsole(engine.calculate(reader.readArgumentConsole()));
-
-
+        CalcArgumentsContainer argument = reader.readArgumentsConsole();
+        double result = engine.calculate(argument);
+        writer.writeToConsole(result);
     }
-
-
 
 }

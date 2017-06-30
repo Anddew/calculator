@@ -3,11 +3,11 @@ package calculator.operations;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Operations {
+public class ListOperations {
 
-    private List<IOperation> operations;
+    private List<Operation> operations;
 
-    public Operations() {
+    public ListOperations() {
         operations = new ArrayList<>();
         operations.add(new Addition());
         operations.add(new Division());
@@ -15,8 +15,10 @@ public class Operations {
         operations.add(new Subtraction());
     }
 
-    public List<IOperation> getListOperations() {
+    public List<Operation> getListOperations() {
         return operations;
     }
+
+
 
 }

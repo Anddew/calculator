@@ -1,11 +1,15 @@
 package calculator;
 
+import calculator.operations.Operation;
+
 import java.io.IOException;
 
 public class CalculationEngine {
 
-    public double calculate(Argument argument) throws IOException {
-        return argument.getOperation().action(argument.getFirstArgument(), argument.getSecondArgument());
+    public double calculate(CalcArgumentsContainer argument) throws IOException {
+        Operation operation = argument.getOperation();
+        double[] argumentsArray = argument.getArgumentsArray();
+        return operation.action(argumentsArray);
     }
 
 }

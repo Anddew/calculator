@@ -6,8 +6,4 @@ public class ResultConsoleWriter {
         System.out.println("Result: " + result);
     }
 
-    public void writeToConsole(String string) {
-        System.out.println(string);
-    }
-
 }
