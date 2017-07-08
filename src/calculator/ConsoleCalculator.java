@@ -1,5 +1,8 @@
 package calculator;
 
+import calculator.results.CalcArgumentsContainer;
+import calculator.results.ResultOperation;
+
 import java.io.IOException;
 
 public class ConsoleCalculator {
@@ -15,9 +18,18 @@ public class ConsoleCalculator {
     }
 
     public void startConsoleCalculator() throws IOException {
-        CalcArgumentsContainer argument = reader.readArgumentsConsole();
-        double result = engine.calculate(argument);
-        writer.writeToConsole(result);
+        ResultOperation resultOperation = reader.readArgumentsConsole();
+        switch (resultOperation.getResultMarker()) {
+            case ArgumentsContainer: {
+                CalcArgumentsContainer argument = (CalcArgumentsContainer) resultOperation;
+                double result = engine.calculate(argument);
+                writer.writeToConsole(result);
+            } break;
+            case AppBreak: {
+                //NOP
+            } break;
+        }
+
     }
 
 }
