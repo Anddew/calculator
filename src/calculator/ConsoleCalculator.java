@@ -1,7 +1,8 @@
 package calculator;
 
+import calculator.results.Markable;
 import calculator.results.CalcArgumentsContainer;
-import calculator.results.ResultOperation;
+import calculator.results.ResultMarker;
 
 import java.io.IOException;
 
@@ -18,18 +19,10 @@ public class ConsoleCalculator {
     }
 
     public void startConsoleCalculator() throws IOException {
-        ResultOperation resultOperation = reader.readArgumentsConsole();
-        switch (resultOperation.getResultMarker()) {
-            case ArgumentsContainer: {
-                CalcArgumentsContainer argument = (CalcArgumentsContainer) resultOperation;
-                double result = engine.calculate(argument);
-                writer.writeToConsole(result);
-            } break;
-            case AppBreak: {
-                //NOP
-            } break;
+        Markable resultInput;
+        while ((resultInput = reader.readArgumentsConsole()).getResultMarker() == ResultMarker.ArgumentsContainer ) {
+            double result = engine.calculate((CalcArgumentsContainer) resultInput);
+            writer.writeToConsole(result);
         }
-
     }
-
 }

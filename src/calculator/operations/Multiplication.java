@@ -1,11 +1,10 @@
 package calculator.operations;
 
-public class Multiplication extends Operation {
 
-    private char sign = '*';
+public class Multiplication implements IOperation {
 
     public char getSign() {
-        return sign;
+        return '*';
     }
 
     public double action(double[] argumentsArray) {

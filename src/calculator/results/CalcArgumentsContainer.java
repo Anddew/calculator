@@ -1,15 +1,13 @@
 package calculator.results;
 
-import calculator.operations.Operation;
+import calculator.operations.IOperation;
 
-public class CalcArgumentsContainer extends ResultOperation {
+public class CalcArgumentsContainer implements Markable {
 
     private double[] argumentsArray;
-    private Operation operation;
-    private ResultMarker resultMarker;
+    private IOperation operation;
 
-    public CalcArgumentsContainer(double[] argumentsArray, Operation operation) {
-        super(ResultMarker.ArgumentsContainer);
+    public CalcArgumentsContainer(double[] argumentsArray, IOperation operation) {
         this.argumentsArray = argumentsArray;
         this.operation = operation;
     }
@@ -18,8 +16,12 @@ public class CalcArgumentsContainer extends ResultOperation {
         return argumentsArray;
     }
 
-    public Operation getOperation() {
+    public IOperation getOperation() {
         return operation;
+    }
+
+    public ResultMarker getResultMarker() {
+        return ResultMarker.ArgumentsContainer;
     }
 
 }

@@ -1,13 +1,10 @@
 package calculator.operations;
 
-import java.util.Arrays;
 
-public class Addition extends Operation {
-
-    private char sign = '+';
+public class Addition implements IOperation {
 
     public char getSign() {
-        return sign;
+        return '+';
     }
 
     public double action(double[] argumentsArray) {

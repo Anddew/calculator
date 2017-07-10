@@ -1,56 +1,39 @@
 package calculator;
 
 import calculator.operations.Addition;
-import calculator.operations.Operation;
+import calculator.operations.IOperation;
+import calculator.results.Markable;
 import calculator.operations.ListOperations;
 import calculator.results.AppBreak;
 import calculator.results.CalcArgumentsContainer;
-import calculator.results.ResultOperation;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ArgumentConsoleReader {
 
-    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private Scanner scanner = new Scanner(System.in);
 
-    public ResultOperation readArgumentsConsole() throws IOException {
-        Operation operation;
-        double[] argumentsArray;
+    public Markable readArgumentsConsole() throws IOException {
         String expression;
-        String expressionValidatorRegex = "([+\\-*/])\\(\\s*((\\d+\\.?\\d*\\s*)*)\\)";
-        String valuesArrayTerminatorRegex = "\\s+";
 
-        while (true) {
-            System.out.println("Input math expression like +(1 2 3) or *(8 3 2.5) or 'quit' to exit");
-            expression = reader.readLine().trim();
-            if (!expression.equals("quit")) {
-                Matcher matcher = validateInputExpression(expressionValidatorRegex, expression);
-                if (matcher.matches()) {
-                    operation = chooseOperation(matcher.group(1).charAt(0));
-                    String values = matcher.group(2);
-                    String[] argumentsStringArray = splitExpressionToStringArray(valuesArrayTerminatorRegex, values);
-                    argumentsArray = convertStringArrayToDoubleArray(argumentsStringArray);
-                    return new CalcArgumentsContainer(argumentsArray, operation);
-                } else {
-                    System.out.println("Invalid input. Please try again.");
-                }
-            } else return new AppBreak();
-        }
-    }
 
-    private String[] splitExpressionToStringArray (String regex, String expression) {
-        Pattern valuesArrayTerminator = Pattern.compile(regex);
-        return valuesArrayTerminator.split(expression);
-    }
+        System.out.println("Input math expression like +(1 2 3) or *(8 3 2.5) or 'quit' to exit");
 
-    private Matcher validateInputExpression(String regex, String expression) {
-        Pattern expressionValidator = Pattern.compile(regex);
-        return expressionValidator.matcher(expression);
+        while ( !(expression = scanner.nextLine()).trim().equals("quit") ) {
+            String expressionValidatorRegex = "([+\\-*/])\\(\\s*((\\d+\\.?\\d*\\s*)*)\\)";
+            Pattern expressionValidator = Pattern.compile(expressionValidatorRegex);
+            Matcher matcher = expressionValidator.matcher(expression);
+            if (matcher.matches()) {
+                IOperation operation = chooseOperation(matcher.group(1).charAt(0));
+                double[] argumentsArray = convertStringArrayToDoubleArray(matcher.group(2).split("\\s+"));
+                return new CalcArgumentsContainer(argumentsArray, operation);
+            } else {
+                System.out.println("Invalid input. Please try again.");
+            }
+        } return new AppBreak();
     }
 
     private double[] convertStringArrayToDoubleArray(String[] array) {
@@ -61,22 +44,22 @@ public class ArgumentConsoleReader {
         return result;
     }
 
-    private Operation chooseOperation(char check) {
+    private IOperation chooseOperation(char check) {
         ListOperations listOperations = new ListOperations();
-        for (Operation elem: listOperations.getListOperations()) {
+        for (IOperation elem: listOperations.getListOperations()) {
             if (elem.getSign() == check)
                 return elem;
         }
         throw new IllegalArgumentException("Invalid math sign");
     }
 
-    private Operation chooseOperation() throws IOException {
+    private IOperation chooseOperation() throws IOException {
         ListOperations listOperations = new ListOperations();
         byte operationNumber = 0;
-        for(Operation elem: listOperations.getListOperations()) {
+        for(IOperation elem: listOperations.getListOperations()) {
             System.out.println("Type " + operationNumber++ + " to use operation - " + elem.getClass().getName());
         }
-        byte chosenOperation = Byte.parseByte(reader.readLine());
+        byte chosenOperation = Byte.parseByte(scanner.nextLine());
         if (chosenOperation < 0 || chosenOperation > operationNumber) {
             throw new IllegalArgumentException("Invalid input number for choosing operation");
         }

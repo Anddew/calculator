@@ -1,9 +1,9 @@
 package calculator.results;
 
-public class AppBreak extends ResultOperation {
+public class AppBreak implements Markable {
 
-    public AppBreak() {
-        super(ResultMarker.AppBreak);
+    public ResultMarker getResultMarker() {
+        return ResultMarker.AppBreak;
     }
 
 }

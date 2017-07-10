@@ -1,11 +1,10 @@
 package calculator.operations;
 
-public class Subtraction extends Operation {
 
-    private char sign = '-';
+public class Subtraction implements IOperation {
 
     public char getSign() {
-        return sign;
+        return '-';
     }
 
     public double action(double[] argumentsArray) {

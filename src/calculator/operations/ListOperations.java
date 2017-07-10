@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ListOperations {
 
-    private List<Operation> operations;
+    private List<IOperation> operations;
 
     public ListOperations() {
         operations = new ArrayList<>();
@@ -15,10 +15,8 @@ public class ListOperations {
         operations.add(new Subtraction());
     }
 
-    public List<Operation> getListOperations() {
+    public List<IOperation> getListOperations() {
         return operations;
     }
-
-
 
 }

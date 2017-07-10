@@ -1,11 +1,10 @@
 package calculator.operations;
 
-public class Division extends Operation {
 
-    private char sign = '/';
+public class Division implements IOperation {
 
     public char getSign() {
-        return sign;
+        return '/';
     }
 
     public double action(double[] argumentsArray) {
