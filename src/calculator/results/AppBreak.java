@@ -1,9 +1,9 @@
 package calculator.results;
 
-public class AppBreak implements Markable {
+public class AppBreak implements ICommand {
 
-    public ResultMarker getResultMarker() {
-        return ResultMarker.AppBreak;
+    public CommandMarker getCommandMarker() {
+        return CommandMarker.QUIT_MARKER;
     }
 
 }

@@ -1,8 +1,8 @@
 package calculator;
 
-import calculator.operations.Addition;
 import calculator.operations.IOperation;
-import calculator.results.Markable;
+import calculator.results.Helper;
+import calculator.results.ICommand;
 import calculator.operations.ListOperations;
 import calculator.results.AppBreak;
 import calculator.results.CalcArgumentsContainer;
@@ -12,26 +12,28 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ArgumentConsoleReader {
+public class CommandReader {
 
     private Scanner scanner = new Scanner(System.in);
 
-    public Markable readArgumentsConsole() throws IOException {
-        String expression;
+    public ICommand readCommand() throws IOException {
 
-
-        System.out.println("Input math expression like +(1 2 3) or *(8 3 2.5) or 'quit' to exit");
-
-        while ( !(expression = scanner.nextLine()).trim().equals("quit") ) {
-            String expressionValidatorRegex = "([+\\-*/])\\(\\s*((\\d+\\.?\\d*\\s*)*)\\)";
-            Pattern expressionValidator = Pattern.compile(expressionValidatorRegex);
-            Matcher matcher = expressionValidator.matcher(expression);
-            if (matcher.matches()) {
-                IOperation operation = chooseOperation(matcher.group(1).charAt(0));
-                double[] argumentsArray = convertStringArrayToDoubleArray(matcher.group(2).split("\\s+"));
-                return new CalcArgumentsContainer(argumentsArray, operation);
+        boolean quitCondition = false;
+        while ( !quitCondition ) {
+            String expression = scanner.nextLine().trim();
+            if (!expression.equals("quit")) {
+                String expressionValidatorRegex = "([+\\-*/])\\(\\s*((\\d+\\.?\\d*\\s*)*)\\)";
+                Pattern expressionValidator = Pattern.compile(expressionValidatorRegex);
+                Matcher matcher = expressionValidator.matcher(expression);
+                if (matcher.matches()) {
+                    IOperation operation = chooseOperation(matcher.group(1).charAt(0));
+                    double[] argumentsArray = convertStringArrayToDoubleArray(matcher.group(2).split("\\s+"));
+                    return new CalcArgumentsContainer(argumentsArray, operation);
+                } else {
+                    return new Helper();
+                }
             } else {
-                System.out.println("Invalid input. Please try again.");
+                quitCondition = true;
             }
         } return new AppBreak();
     }

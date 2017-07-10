@@ -2,7 +2,7 @@ package calculator.results;
 
 import calculator.operations.IOperation;
 
-public class CalcArgumentsContainer implements Markable {
+public class CalcArgumentsContainer implements ICommand {
 
     private double[] argumentsArray;
     private IOperation operation;
@@ -20,8 +20,8 @@ public class CalcArgumentsContainer implements Markable {
         return operation;
     }
 
-    public ResultMarker getResultMarker() {
-        return ResultMarker.ArgumentsContainer;
+    public CommandMarker getCommandMarker() {
+        return CommandMarker.EVAL_MARKER;
     }
 
 }

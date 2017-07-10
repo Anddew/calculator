@@ -12,5 +12,6 @@ public class CalculationEngine {
         IOperation operation = argument.getOperation();
         double[] argumentsArray = argument.getArgumentsArray();
         return operation.action(argumentsArray);
+
     }
 }
