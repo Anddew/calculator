@@ -1,8 +1,11 @@
 package calculator;
 
-import calculator.results.CommandMarker;
-import calculator.results.ICommand;
-import calculator.results.CalcArgumentsContainer;
+import calculator.input.ICommand;
+import calculator.input.EvalCommand;
+import calculator.output.BreakResult;
+import calculator.output.EvalResult;
+import calculator.output.HelpResult;
+import calculator.output.IResult;
 
 import java.io.IOException;
 
@@ -19,21 +22,27 @@ public class ConsoleCalculator {
     }
 
     public void startConsoleCalculator() throws IOException {
-        ICommand resultInput;
+
         boolean quitCondition = false;
         while (!quitCondition) {
-            switch ( (resultInput = reader.readCommand()).getCommandMarker() ) {
+            ICommand resultInput = reader.readCommand();
+            IResult resultOutput;
+            switch ( resultInput.getCommandMarker() ) {
                 case EVAL_MARKER:
-                    double result = engine.calculate((CalcArgumentsContainer) resultInput);
-                    writer.writeToConsole(result);
+                    resultOutput = engine.calculate((EvalCommand) resultInput);
                     break;
                 case QUIT_MARKER:
                     quitCondition = true;
+                    resultOutput = new BreakResult();
                     break;
                 case HELP_MARKER:
-                    System.out.println("Invalid input. Please, try again. Input math expression like +(1 2 3) or *(8 3 2.5) or 'quit' to exit");
+                    resultOutput = new HelpResult();
+                    break;
+                default:
+                    resultOutput = new HelpResult();
                     break;
             }
+            writer.write(resultOutput);
         }
     }
 }

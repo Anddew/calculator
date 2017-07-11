@@ -1,4 +1,4 @@
-package calculator.operations;
+package calculator.operation;
 
 
 public interface IOperation {

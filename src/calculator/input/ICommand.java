@@ -1,4 +1,4 @@
-package calculator.results;
+package calculator.input;
 
 public interface ICommand {
 

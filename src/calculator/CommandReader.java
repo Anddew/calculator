@@ -1,11 +1,11 @@
 package calculator;
 
-import calculator.operations.IOperation;
-import calculator.results.Helper;
-import calculator.results.ICommand;
-import calculator.operations.ListOperations;
-import calculator.results.AppBreak;
-import calculator.results.CalcArgumentsContainer;
+import calculator.operation.IOperation;
+import calculator.input.BreakCommand;
+import calculator.input.HelpCommand;
+import calculator.input.ICommand;
+import calculator.operation.ListOperations;
+import calculator.input.EvalCommand;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -17,7 +17,6 @@ public class CommandReader {
     private Scanner scanner = new Scanner(System.in);
 
     public ICommand readCommand() throws IOException {
-
         boolean quitCondition = false;
         while ( !quitCondition ) {
             String expression = scanner.nextLine().trim();
@@ -28,14 +27,14 @@ public class CommandReader {
                 if (matcher.matches()) {
                     IOperation operation = chooseOperation(matcher.group(1).charAt(0));
                     double[] argumentsArray = convertStringArrayToDoubleArray(matcher.group(2).split("\\s+"));
-                    return new CalcArgumentsContainer(argumentsArray, operation);
+                    return new EvalCommand(argumentsArray, operation);
                 } else {
-                    return new Helper();
+                    return new HelpCommand();
                 }
             } else {
                 quitCondition = true;
             }
-        } return new AppBreak();
+        } return new BreakCommand();
     }
 
     private double[] convertStringArrayToDoubleArray(String[] array) {

@@ -1,6 +1,6 @@
-package calculator.results;
+package calculator.input;
 
-public class Helper implements ICommand {
+public class HelpCommand implements ICommand {
 
     public CommandMarker getCommandMarker() {
         return CommandMarker.HELP_MARKER;

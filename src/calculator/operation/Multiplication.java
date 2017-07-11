@@ -1,16 +1,16 @@
-package calculator.operations;
+package calculator.operation;
 
 
-public class Addition implements IOperation {
+public class Multiplication implements IOperation {
 
     public char getSign() {
-        return '+';
+        return '*';
     }
 
     public double action(double[] argumentsArray) {
         double result = argumentsArray[0];
         for(int i = 1; i < argumentsArray.length; i++) {
-            result += argumentsArray[i];
+            result *= argumentsArray[i];
         }
         return result;
     }

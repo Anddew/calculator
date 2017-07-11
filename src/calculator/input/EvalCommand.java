@@ -1,13 +1,13 @@
-package calculator.results;
+package calculator.input;
 
-import calculator.operations.IOperation;
+import calculator.operation.IOperation;
 
-public class CalcArgumentsContainer implements ICommand {
+public class EvalCommand implements ICommand {
 
     private double[] argumentsArray;
     private IOperation operation;
 
-    public CalcArgumentsContainer(double[] argumentsArray, IOperation operation) {
+    public EvalCommand(double[] argumentsArray, IOperation operation) {
         this.argumentsArray = argumentsArray;
         this.operation = operation;
     }

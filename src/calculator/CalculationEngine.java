@@ -1,17 +1,19 @@
 package calculator;
 
-import calculator.operations.IOperation;
-import calculator.results.CalcArgumentsContainer;
+import calculator.operation.IOperation;
+import calculator.input.EvalCommand;
+import calculator.output.EvalResult;
 
 import java.io.IOException;
 
 public class CalculationEngine {
 
-    public double calculate(CalcArgumentsContainer argument) throws IOException {
+    public EvalResult calculate(EvalCommand argument) throws IOException {
 
         IOperation operation = argument.getOperation();
         double[] argumentsArray = argument.getArgumentsArray();
-        return operation.action(argumentsArray);
+        double result = operation.action(argumentsArray);
+        return new EvalResult(result);
 
     }
 }

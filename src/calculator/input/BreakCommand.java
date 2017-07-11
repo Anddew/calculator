@@ -1,6 +1,6 @@
-package calculator.results;
+package calculator.input;
 
-public class AppBreak implements ICommand {
+public class BreakCommand implements ICommand {
 
     public CommandMarker getCommandMarker() {
         return CommandMarker.QUIT_MARKER;
