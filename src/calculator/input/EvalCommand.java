@@ -2,18 +2,20 @@ package calculator.input;
 
 import calculator.operation.IOperation;
 
+import java.util.List;
+
 public class EvalCommand implements ICommand {
 
-    private double[] argumentsArray;
+    private List<Double> argumentsList;
     private IOperation operation;
 
-    public EvalCommand(double[] argumentsArray, IOperation operation) {
-        this.argumentsArray = argumentsArray;
+    public EvalCommand(List<Double> argumentsList, IOperation operation) {
+        this.argumentsList = argumentsList;
         this.operation = operation;
     }
 
-    public double[] getArgumentsArray() {
-        return argumentsArray;
+    public List<Double> getArgumentsList() {
+        return argumentsList;
     }
 
     public IOperation getOperation() {

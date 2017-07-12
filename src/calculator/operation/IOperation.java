@@ -1,9 +1,11 @@
 package calculator.operation;
 
 
+import java.util.List;
+
 public interface IOperation {
 
-    double action(double[] argumentsArray);
+    double action(List<Double> argumentsList);
 
     char getSign();
 

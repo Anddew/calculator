@@ -5,6 +5,8 @@ import calculator.operation.IOperation;
 import calculator.operation.ListOperations;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,11 +28,12 @@ public class CommandReader {
                 Matcher matcher = expressionValidator.matcher(expression);
                 if (matcher.matches()) {
                     IOperation operation = chooseOperation(matcher.group(1).charAt(0));
-                    double[] argumentsArray = convertStringArrayToDoubleArray(matcher.group(2).split("\\s+"));
-                    if (argumentsArray.length > 20) {
+                    String[] argumentsStringArray = matcher.group(2).split("\\s+");
+                    if (argumentsStringArray.length > 20) {
                         return new InvalidInput("Invalid input. Operation can have no more than 20 operands");
                     } else {
-                        return new EvalCommand(argumentsArray, operation);
+                        List<Double> argumentsList = convertStringArrayToDoubleList(argumentsStringArray);
+                        return new EvalCommand(argumentsList, operation);
                     }
                 } else {
                     return new InvalidInput("Invalid input. Please try again. For help type 'help'.");
@@ -38,10 +41,10 @@ public class CommandReader {
         }
     }
 
-    private double[] convertStringArrayToDoubleArray(String[] array) {
-        double[] result = new double[array.length];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = Double.parseDouble(array[i]);
+    private List<Double> convertStringArrayToDoubleList(String[] array) {
+        List<Double> result = new ArrayList<>(array.length);
+        for (int i = 0; i < array.length; i++) {
+            result.add(Double.parseDouble(array[i]));
         }
         return result;
     }
