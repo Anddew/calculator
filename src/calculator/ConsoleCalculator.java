@@ -29,13 +29,13 @@ public class ConsoleCalculator {
                     break;
                 case QUIT_MARKER:
                     quitCondition = true;
-                    writer.write("Application was closed. Thank you for using");
                     break;
                 case HELP_MARKER:
                     writer.write("Input math expression like 'eval +(1 2 3)' or 'eval *(8 3 2.5)' or 'quit' to exit");
                     break;
                 case ILLEGAL_INPUT_MARKER:
                     writer.write( ((InvalidInputCommand) resultInput).getComment() );
+                    break;
             }
         }
     }

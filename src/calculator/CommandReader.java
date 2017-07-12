@@ -17,12 +17,12 @@ public class CommandReader {
         String expression = scanner.nextLine().trim();
         switch (expression) {
             case "quit":
-                return new BreakCommand();
+                return new QuitCommand();
             case "help":
                 return new HelpCommand();
             default:
                 String expressionValidatorRegex = "\\s*eval\\s+([+\\-*/])\\(\\s*((\\d+\\.?\\d*\\s*)*)\\)";
-                Pattern expressionValidator = Pattern.compile(expressionValidatorRegex, Pattern.CASE_INSENSITIVE);
+                Pattern expressionValidator = Pattern.compile(expressionValidatorRegex);
                 Matcher matcher = expressionValidator.matcher(expression);
                 if (matcher.matches()) {
                     IOperation operation = chooseOperation(matcher.group(1).charAt(0));
@@ -53,19 +53,6 @@ public class CommandReader {
                 return elem;
         }
         throw new IllegalArgumentException("Invalid math sign");
-    }
-
-    private IOperation chooseOperation() throws IOException {
-        ListOperations listOperations = new ListOperations();
-        byte operationNumber = 0;
-        for(IOperation elem: listOperations.getListOperations()) {
-            System.out.println("Type " + operationNumber++ + " to use operation - " + elem.getClass().getName());
-        }
-        byte chosenOperation = Byte.parseByte(scanner.nextLine());
-        if (chosenOperation < 0 || chosenOperation > operationNumber) {
-            throw new IllegalArgumentException("Invalid input number for choosing operation");
-        }
-        return listOperations.getListOperations().get(chosenOperation);
     }
 
 }
