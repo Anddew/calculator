@@ -2,12 +2,10 @@ package calculator;
 
 import calculator.input.*;
 import calculator.operation.IOperation;
-import calculator.operation.ListOperations;
+import calculator.operation.OperationsMap;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,12 +48,8 @@ public class CommandReader {
     }
 
     private IOperation chooseOperation(char check) {
-        ListOperations listOperations = new ListOperations();
-        for (IOperation elem: listOperations.getListOperations()) {
-            if (elem.getSign() == check)
-                return elem;
-        }
-        throw new IllegalArgumentException("Invalid math sign");
+        Map<Character, IOperation> operationsMap = new OperationsMap().getOperationsMap();
+        return operationsMap.get(check);
     }
 
 }
