@@ -2,10 +2,7 @@ package calculator;
 
 import calculator.input.ICommand;
 import calculator.input.EvalCommand;
-import calculator.output.BreakResult;
-import calculator.output.EvalResult;
-import calculator.output.HelpResult;
-import calculator.output.IResult;
+import calculator.input.InvalidInputCommand;
 
 import java.io.IOException;
 
@@ -26,23 +23,20 @@ public class ConsoleCalculator {
         boolean quitCondition = false;
         while (!quitCondition) {
             ICommand resultInput = reader.readCommand();
-            IResult resultOutput;
             switch ( resultInput.getCommandMarker() ) {
                 case EVAL_MARKER:
-                    resultOutput = engine.calculate((EvalCommand) resultInput);
+                    writer.write("" + engine.calculate((EvalCommand) resultInput));
                     break;
                 case QUIT_MARKER:
                     quitCondition = true;
-                    resultOutput = new BreakResult();
+                    writer.write("Application was closed. Thank you for using");
                     break;
                 case HELP_MARKER:
-                    resultOutput = new HelpResult();
+                    writer.write("Input math expression like 'eval +(1 2 3)' or 'eval *(8 3 2.5)' or 'quit' to exit");
                     break;
-                default:
-                    resultOutput = new HelpResult();
-                    break;
+                case ILLEGAL_INPUT_MARKER:
+                    writer.write( ((InvalidInputCommand) resultInput).getComment() );
             }
-            writer.write(resultOutput);
         }
     }
 }
