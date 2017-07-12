@@ -41,15 +41,14 @@ public class CommandReader {
 
     private List<Double> convertStringArrayToDoubleList(String[] array) {
         List<Double> result = new ArrayList<>(array.length);
-        for (int i = 0; i < array.length; i++) {
-            result.add(Double.parseDouble(array[i]));
+        for (String elem: array) {
+            result.add(Double.parseDouble(elem));
         }
         return result;
     }
 
     private IOperation chooseOperation(char check) {
-        Map<Character, IOperation> operationsMap = new OperationsMap().getOperationsMap();
-        return operationsMap.get(check);
+        return OperationsMap.operations.get(check);
     }
 
 }

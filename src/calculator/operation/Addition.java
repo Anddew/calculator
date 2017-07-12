@@ -12,9 +12,10 @@ public class Addition implements IOperation {
     public double action(List<Double> argumentsList) {
 
         double result = argumentsList.get(0);
-        for (int i = 1; i < argumentsList.size(); i++) {
-            result += argumentsList.get(i);
+        for (double elem: argumentsList.subList(1,argumentsList.size())) {
+            result += elem;
         }
         return result;
+
     }
 }
