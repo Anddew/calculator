@@ -2,7 +2,7 @@ package calculator;
 
 import calculator.input.ICommand;
 import calculator.input.EvalCommand;
-import calculator.input.InvalidInputCommand;
+import calculator.input.InvalidInput;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ public class ConsoleCalculator {
                     writer.write("Input math expression like 'eval +(1 2 3)' or 'eval *(8 3 2.5)' or 'quit' to exit");
                     break;
                 case ILLEGAL_INPUT_MARKER:
-                    writer.write( ((InvalidInputCommand) resultInput).getComment() );
+                    writer.write( ((InvalidInput) resultInput).getComment() );
                     break;
             }
         }

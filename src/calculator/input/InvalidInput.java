@@ -1,10 +1,10 @@
 package calculator.input;
 
-public class InvalidInputCommand implements ICommand {
+public class InvalidInput implements ICommand {
 
     private String comment;
 
-    public InvalidInputCommand(String comment) {
+    public InvalidInput(String comment) {
         this.comment = comment;
     }
 

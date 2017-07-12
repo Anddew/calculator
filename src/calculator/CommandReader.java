@@ -28,12 +28,12 @@ public class CommandReader {
                     IOperation operation = chooseOperation(matcher.group(1).charAt(0));
                     double[] argumentsArray = convertStringArrayToDoubleArray(matcher.group(2).split("\\s+"));
                     if (argumentsArray.length > 20) {
-                        return new InvalidInputCommand("Invalid input. Operation can have no more than 20 operands");
+                        return new InvalidInput("Invalid input. Operation can have no more than 20 operands");
                     } else {
                         return new EvalCommand(argumentsArray, operation);
                     }
                 } else {
-                    return new InvalidInputCommand("Invalid input. Please try again. For help type 'help'.");
+                    return new InvalidInput("Invalid input. Please try again. For help type 'help'.");
                 }
         }
     }
