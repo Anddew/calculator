@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Multiplication implements IOperation {
 
-    public char getSign() {
-        return '*';
+    public String getName() {
+        return "mul";
     }
 
     public double action(List<Double> argumentsList) {

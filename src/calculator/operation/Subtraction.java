@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Subtraction implements IOperation {
 
-    public char getSign() {
-        return '-';
+    public String getName() {
+        return "sub";
     }
 
     public double action(List<Double> argumentsList) {

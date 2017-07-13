@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Addition implements IOperation {
 
-    public char getSign() {
-        return '+';
+    public String getName() {
+        return "add";
     }
 
     public double action(List<Double> argumentsList) {

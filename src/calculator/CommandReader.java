@@ -47,7 +47,7 @@ public class CommandReader {
         return result;
     }
 
-    private IOperation chooseOperation(char check) {
+    private IOperation chooseOperation(String check) {
         return OperationsMap.operations.get(check);
     }
 

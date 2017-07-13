@@ -5,21 +5,21 @@ import java.util.Map;
 
 public class OperationsMap {
 
-    public static final Map<Character, IOperation> operations;
+    public static final Map<String, IOperation> operations;
     static {
         operations = new HashMap<>();
 
         IOperation addition = new Addition();
-        operations.put(addition.getSign(), addition);
+        operations.put(addition.getName(), addition);
 
         IOperation subtraction = new Subtraction();
-        operations.put(subtraction.getSign(), subtraction);
+        operations.put(subtraction.getName(), subtraction);
 
         IOperation multiplication = new Multiplication();
-        operations.put(multiplication.getSign(), multiplication);
+        operations.put(multiplication.getName(), multiplication);
 
         IOperation division = new Division();
-        operations.put(division.getSign(), division);
+        operations.put(division.getName(), division);
     }
 
 }

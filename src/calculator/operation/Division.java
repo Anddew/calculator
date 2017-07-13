@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Division implements IOperation {
 
-    public char getSign() {
-        return '/';
+    public String getName() {
+        return "div";
     }
 
     public double action(List<Double> argumentsList) {

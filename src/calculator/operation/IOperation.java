@@ -7,6 +7,6 @@ public interface IOperation {
 
     double action(List<Double> argumentsList);
 
-    char getSign();
+    String getName();
 
 }
