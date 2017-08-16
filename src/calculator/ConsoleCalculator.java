@@ -1,42 +1,23 @@
 package calculator;
 
-import calculator.input.ICommand;
-import calculator.input.EvalCommand;
-import calculator.input.InvalidInput;
+import calculator.input.CommandHandlerFactory;
+import calculator.input.command.CommandMarker;
+import calculator.input.command.ICommand;
+import calculator.input.command.InvalidInput;
+import calculator.reader.ConsoleCommandReader;
 
 import java.io.IOException;
 
-public class ConsoleCalculator {
+class ConsoleCalculator {
 
-    private CalculationEngine engine;
-    private CommandReader reader;
-    private ResultConsoleWriter writer;
+    private CommandHandlerFactory factory = new CommandHandlerFactory();
+    private ConsoleCalculatorContext calculatorContext = new ConsoleCalculatorContext();
+    private ConsoleCommandReader commandReader = new ConsoleCommandReader();
 
-    public ConsoleCalculator() {
-        engine = new CalculationEngine();
-        reader = new CommandReader();
-        writer = new ResultConsoleWriter();
-    }
-
-    public void startConsoleCalculator() throws IOException {
-
-        boolean quitCondition = false;
-        while (!quitCondition) {
-            ICommand resultInput = reader.readCommand();
-            switch ( resultInput.getCommandMarker() ) {
-                case EVAL_MARKER:
-                    writer.write("" + engine.calculate((EvalCommand) resultInput));
-                    break;
-                case QUIT_MARKER:
-                    quitCondition = true;
-                    break;
-                case HELP_MARKER:
-                    writer.write("Input math expression like 'eval +(1 2 3)' or 'eval *(8 3 2.5)' or 'quit' to exit");
-                    break;
-                case ILLEGAL_INPUT_MARKER:
-                    writer.write( ((InvalidInput) resultInput).getComment() );
-                    break;
-            }
+    void startConsoleCalculator() {
+        ICommand command;
+        while (! (command = commandReader.readCommand()).getCommandMarker().equals(CommandMarker.QUIT_MARKER) ) {
+            factory.getLogic(command, calculatorContext).useLogic(command);
         }
     }
 }

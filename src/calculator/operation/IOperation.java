@@ -1,11 +1,6 @@
 package calculator.operation;
 
-
-import java.util.List;
-
-public interface IOperation {
-
-    double action(List<Double> argumentsList);
+interface IOperation {
 
     String getName();
 

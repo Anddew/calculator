@@ -1,4 +1,4 @@
-package calculator.input;
+package calculator.input.command;
 
 public class InvalidInput implements ICommand {
 
@@ -13,7 +13,7 @@ public class InvalidInput implements ICommand {
     }
 
     public CommandMarker getCommandMarker() {
-        return CommandMarker.ILLEGAL_INPUT_MARKER;
+        return CommandMarker.INVALID_INPUT_MARKER;
     }
 
 }

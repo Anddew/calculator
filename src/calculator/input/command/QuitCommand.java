@@ -1,9 +1,14 @@
-package calculator.input;
+package calculator.input.command;
 
 public class QuitCommand implements ICommand {
 
+    @Override
     public CommandMarker getCommandMarker() {
         return CommandMarker.QUIT_MARKER;
+    }
+
+    public static String getName() {
+        return "quit";
     }
 
 }
