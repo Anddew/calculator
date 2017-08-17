@@ -1,18 +1,20 @@
 package calculator.input.commandlogic;
 
-import calculator.ICalculatorContext;
-import calculator.input.command.ICommand;
+import calculator.calculatorcontext.CalculatorContext;
+import calculator.input.command.QuitCommand;
 
 public class QuitCommandLogic implements ICommandLogic {
 
-    private ICalculatorContext calculatorContext;
+    private CalculatorContext calculatorContext;
+    private QuitCommand command;
 
-    public QuitCommandLogic(ICalculatorContext calculatorContext) {
+    public QuitCommandLogic(QuitCommand command, CalculatorContext calculatorContext) {
+        this.command = command;
         this.calculatorContext = calculatorContext;
     }
 
     @Override
-    public void useLogic(ICommand command) {
-        //NOP
+    public void useLogic() {
+        calculatorContext.setQuitCondition();
     }
 }

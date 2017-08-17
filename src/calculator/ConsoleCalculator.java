@@ -1,23 +1,21 @@
 package calculator;
 
+import calculator.calculatorcontext.CalculatorContext;
 import calculator.input.CommandHandlerFactory;
-import calculator.input.command.CommandMarker;
 import calculator.input.command.ICommand;
-import calculator.input.command.InvalidInput;
 import calculator.reader.ConsoleCommandReader;
-
-import java.io.IOException;
+import calculator.writer.ConsoleWriter;
 
 class ConsoleCalculator {
 
     private CommandHandlerFactory factory = new CommandHandlerFactory();
-    private ConsoleCalculatorContext calculatorContext = new ConsoleCalculatorContext();
+    private CalculatorContext calculatorContext = new CalculatorContext(new ConsoleWriter());
     private ConsoleCommandReader commandReader = new ConsoleCommandReader();
 
     void startConsoleCalculator() {
-        ICommand command;
-        while (! (command = commandReader.readCommand()).getCommandMarker().equals(CommandMarker.QUIT_MARKER) ) {
-            factory.getLogic(command, calculatorContext).useLogic(command);
+        while (!calculatorContext.isQuitCondition() ) {
+            ICommand command = commandReader.readCommand();
+            factory.getLogic(command, calculatorContext).useLogic();
         }
     }
 }

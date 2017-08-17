@@ -1,21 +1,21 @@
 package calculator.input.commandlogic;
 
-import calculator.ICalculatorContext;
-import calculator.input.command.ICommand;
+import calculator.calculatorcontext.CalculatorContext;
 import calculator.input.command.InvalidInput;
 
 public class InvalidInputLogic implements ICommandLogic {
 
+    private CalculatorContext calculatorContext;
+    private InvalidInput command;
 
-    private ICalculatorContext calculatorContext;
-
-    public InvalidInputLogic(ICalculatorContext calculatorContext) {
+    public InvalidInputLogic(InvalidInput command, CalculatorContext calculatorContext) {
+        this.command = command;
         this.calculatorContext = calculatorContext;
     }
 
     @Override
-    public void useLogic(ICommand command) {
-        calculatorContext.getWriter().write( ((InvalidInput)command).getComment() );
+    public void useLogic() {
+        calculatorContext.getWriter().write(command.getComment());
     }
 
 }

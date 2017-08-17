@@ -1,9 +1,7 @@
 package calculator.input.commandlogic;
 
-import calculator.ConsoleCalculatorContext;
-import calculator.ICalculatorContext;
+import calculator.calculatorcontext.CalculatorContext;
 import calculator.input.command.EvalCommand;
-import calculator.input.command.ICommand;
 import calculator.input.command.evalcommandtoken.*;
 import calculator.operation.SequentialOperation;
 
@@ -14,17 +12,18 @@ import java.util.Stack;
 
 public class EvalCommandLogic implements ICommandLogic {
 
-    private ICalculatorContext calculatorContext;
+    private CalculatorContext calculatorContext;
+    private EvalCommand command;
 
-    public EvalCommandLogic(ICalculatorContext calculatorContext) {
+    public EvalCommandLogic(EvalCommand command, CalculatorContext calculatorContext) {
+        this.command = command;
         this.calculatorContext = calculatorContext;
     }
 
     @Override
-    public void useLogic(ICommand command) {
-        EvalCommand evalCommand = (EvalCommand) command;
+    public void useLogic() {
         Stack<IEvalCommandToken> stack = new Stack<>();
-        for(IEvalCommandToken elem: evalCommand.getElementsList()) {
+        for(IEvalCommandToken elem: command.getElementsList()) {
             stack.push(elem);
             if(stack.peek().getTokenType().equals(EvalCommandTokenType.OPERATION_END)) {
                 stack.pop();

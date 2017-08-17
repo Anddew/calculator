@@ -1,6 +1,6 @@
 package calculator.writer;
 
-public class ResultConsoleWriter implements IWriter {
+public class ConsoleWriter implements IWriter {
 
     @Override
     public void write(String result)  {
