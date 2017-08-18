@@ -1,14 +1,22 @@
-package calculator.reader;
+package calculator.reader.stringparsingtool;
 
 import calculator.input.command.*;
 import calculator.input.command.creator.ICommandCreator;
+import calculator.reader.IReader;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class CommandReader {
+public class CommandIdentifier {
 
-    ICommand readCommand(String command) {
+    private IReader reader;
+
+    public CommandIdentifier(IReader reader) {
+        this.reader = reader;
+    }
+
+    public ICommand readCommand() {
+        String command = reader.read();
         Pattern commandPattern = Pattern.compile("([a-zA-Z]+)(\\s+.+)?");
         Matcher matcher = commandPattern.matcher(command);
         matcher.find();
