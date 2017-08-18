@@ -1,6 +1,6 @@
 package calculator.input.command.evalcommandtoken;
 
-public class RightParenthesisToken implements IEvalCommandToken {
+public class OperationEndToken implements IEvalCommandToken {
 
     @Override
     public EvalCommandTokenType getTokenType() {

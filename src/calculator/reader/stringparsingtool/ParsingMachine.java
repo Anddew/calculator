@@ -2,7 +2,7 @@ package calculator.reader.stringparsingtool;
 
 import calculator.input.command.InvalidInput;
 import calculator.input.command.evalcommandtoken.OperationToken;
-import calculator.input.command.evalcommandtoken.RightParenthesisToken;
+import calculator.input.command.evalcommandtoken.OperationEndToken;
 import calculator.input.command.evalcommandtoken.ValueToken;
 import calculator.operation.SequentialOperation;
 import calculator.operation.OperationsMap;
@@ -55,7 +55,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                 new ConditionAndAction(
                         input -> input == ')',
                         input -> {
-                            getAccumulator().getElementsList().add(new RightParenthesisToken());
+                            getAccumulator().getElementsList().add(new OperationEndToken());
                             return getState();
                         }
                 ),
@@ -127,7 +127,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                                             Double.parseDouble(getAccumulator().getBuffer().toString())
                                     ));
                             getAccumulator().getBuffer().setLength(0);
-                            getAccumulator().getElementsList().add(new RightParenthesisToken());
+                            getAccumulator().getElementsList().add(new OperationEndToken());
                             return ReaderState.READ_OPERATION_OR_VALUE;
                         }
                 ),
