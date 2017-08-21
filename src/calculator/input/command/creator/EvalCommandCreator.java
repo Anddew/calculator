@@ -7,9 +7,6 @@ import calculator.reader.stringparsingtool.ParsingMachine;
 import calculator.reader.stringparsingtool.ReaderAccumulator;
 import calculator.reader.stringparsingtool.ReaderState;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class EvalCommandCreator implements ICommandCreator {
@@ -19,7 +16,7 @@ public class EvalCommandCreator implements ICommandCreator {
         if (!arguments.isEmpty()) {
             arguments = arguments.trim();
             ReaderAccumulator readerAccumulator = new ReaderAccumulator();
-            ParsingMachine parsingMachine = new ParsingMachine(ReaderState.READ_OPERATION, readerAccumulator);
+            ParsingMachine parsingMachine = new ParsingMachine(ReaderState.READ_OPERATION_STATE, readerAccumulator);
             parsingMachine.handle(arguments.chars().mapToObj(e -> (char) e).collect(Collectors.toList()));
             ICommand command = parsingMachine.getAccumulator().getCommand();
             if (command == null) {

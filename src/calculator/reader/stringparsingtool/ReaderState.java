@@ -2,9 +2,9 @@ package calculator.reader.stringparsingtool;
 
 public enum ReaderState {
 
-    READ_OPERATION,
-    READ_OPERATION_OR_VALUE,
-    READ_VALUE,
+    READ_STATE,
+    READ_OPERATION_STATE,
+    READ_VALUE_STATE,
     QUIT_STATE
 
 }

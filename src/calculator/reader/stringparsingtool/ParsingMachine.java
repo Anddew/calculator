@@ -15,7 +15,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
 
     public ParsingMachine(ReaderState readerState, ReaderAccumulator readerAccumulator) {
         super(readerState, readerAccumulator);
-        stateTransitionMap.put(ReaderState.READ_OPERATION, Arrays.asList(
+        stateTransitionMap.put(ReaderState.READ_OPERATION_STATE, Arrays.asList(
             new ConditionAndAction(
                 Character::isLetter,
                 input -> {
@@ -31,7 +31,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                     if(operation != null) {
                         getAccumulator().getElementsList().add(new OperationToken(operation));
                         getAccumulator().getBuffer().setLength(0);
-                        return ReaderState.READ_OPERATION_OR_VALUE;
+                        return ReaderState.READ_STATE;
                     } else {
                         getAccumulator().setCommand(new InvalidInput("Invalid input. Unknown operation." + getAccumulator().getBuffer().toString()));
                         return ReaderState.QUIT_STATE;
@@ -47,7 +47,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
             )
         ));
 
-        stateTransitionMap.put(ReaderState.READ_OPERATION_OR_VALUE, Arrays.asList(
+        stateTransitionMap.put(ReaderState.READ_STATE, Arrays.asList(
                 new ConditionAndAction(
                         input -> input == ' ',
                         input -> getState()
@@ -63,14 +63,14 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                         Character::isLetter,
                         input -> {
                             getAccumulator().getBuffer().append(input);
-                            return ReaderState.READ_OPERATION;
+                            return ReaderState.READ_OPERATION_STATE;
                         }
                 ),
                 new ConditionAndAction(
                         Character::isDigit,
                         input -> {
                             getAccumulator().getBuffer().append(input);
-                            return ReaderState.READ_VALUE;
+                            return ReaderState.READ_VALUE_STATE;
                         }
                 ),
                 new ConditionAndAction(
@@ -82,12 +82,12 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                 )
         ));
 
-        stateTransitionMap.put(ReaderState.READ_VALUE, Arrays.asList(
+        stateTransitionMap.put(ReaderState.READ_VALUE_STATE, Arrays.asList(
                 new ConditionAndAction(
                         Character::isDigit,
                         input -> {
                             getAccumulator().getBuffer().append(input);
-                            return ReaderState.READ_VALUE;
+                            return ReaderState.READ_VALUE_STATE;
                         }
                 ),
                 new ConditionAndAction(
@@ -95,7 +95,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                         input -> {
                             if (! getAccumulator().getBuffer().toString().contains(".")) {
                                 getAccumulator().getBuffer().append(input);
-                                return ReaderState.READ_VALUE;
+                                return ReaderState.READ_VALUE_STATE;
                             } else {
                                 getAccumulator().setCommand(new InvalidInput("Invalid input. Value has dot symbol several times."));
                                 return ReaderState.QUIT_STATE;
@@ -112,7 +112,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                                         )
                                 );
                                 getAccumulator().getBuffer().setLength(0);
-                                return ReaderState.READ_OPERATION_OR_VALUE;
+                                return ReaderState.READ_STATE;
                             } else {
                                 getAccumulator().setCommand(new InvalidInput("Invalid input. Symbol '.' can not be at the end of value." + getAccumulator().getBuffer().toString()));
                                 return ReaderState.QUIT_STATE;
@@ -128,7 +128,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                                     ));
                             getAccumulator().getBuffer().setLength(0);
                             getAccumulator().getElementsList().add(new OperationEndToken());
-                            return ReaderState.READ_OPERATION_OR_VALUE;
+                            return ReaderState.READ_STATE;
                         }
                 ),
                 new ConditionAndAction(

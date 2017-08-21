@@ -25,34 +25,26 @@ public class EvalCommandLogic implements ICommandLogic {
         for(IEvalCommandToken elem: command.getElementsList()) {
             switch (elem.getTokenType()) {
                 case OPERATION_END: {
-                    List<Double> result = new LinkedList<>();
-                    boolean breakCondition = false;
-                    while(!breakCondition) {
+                    LinkedList<Double> result = new LinkedList<>();
+                    IOperation operation = null;
+                    do {
                         IEvalCommandToken next = stack.pop();
                         if(next.getTokenType().equals(VALUE)) {
-                            result.add(0, ((ValueToken) next).getValue());
+                            result.addFirst(((ValueToken) next).getValue());
                         } else {
-                            IOperation operation = ((OperationToken) next).getOperation();
+                            operation = ((OperationToken) next).getOperation();
                             stack.push(new ValueToken(operation.apply(result)));
-                            breakCondition = true;
                         }
-                    }
+                    } while (operation == null);
                     break;
                 }
-                case OPERATION: {
+                case OPERATION:
+                case VALUE:
                     stack.push(elem);
                     break;
-                }
-                case VALUE: {
-                    stack.push(elem);
-                    break;
-                }
-                default: {
-                    throw new RuntimeException("Unknown token type.");
-                }
+                default: throw new RuntimeException("Unknown token type.");
             }
         }
-
         calculatorContext.getWriter().write(((ValueToken) stack.pop()).getValue());
 
     }
