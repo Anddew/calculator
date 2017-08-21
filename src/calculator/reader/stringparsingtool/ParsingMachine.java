@@ -4,7 +4,7 @@ import calculator.input.command.InvalidInput;
 import calculator.input.command.evalcommandtoken.OperationToken;
 import calculator.input.command.evalcommandtoken.OperationEndToken;
 import calculator.input.command.evalcommandtoken.ValueToken;
-import calculator.operation.SequentialOperation;
+import calculator.operation.IOperation;
 import calculator.operation.OperationsMap;
 
 import java.util.*;
@@ -27,7 +27,7 @@ public class ParsingMachine extends FSM<ReaderState, ReaderAccumulator, Characte
                 input -> input == '(',
                 input -> {
                     String operationName = getAccumulator().getBuffer().toString();
-                    SequentialOperation operation = OperationsMap.operations.get(operationName);
+                    IOperation operation = OperationsMap.operations.get(operationName);
                     if(operation != null) {
                         getAccumulator().getElementsList().add(new OperationToken(operation));
                         getAccumulator().getBuffer().setLength(0);

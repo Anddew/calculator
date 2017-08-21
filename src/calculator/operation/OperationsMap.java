@@ -5,26 +5,26 @@ import java.util.Map;
 
 public class OperationsMap {
 
-    public static final Map<String, SequentialOperation> operations;
+    public static final Map<String, IOperation> operations;
     static {
         operations = new HashMap<>();
 
-        SequentialOperation addition = new Addition();
+        IOperation addition = new Addition();
         operations.put(addition.getName(), addition);
 
-        SequentialOperation subtraction = new Subtraction();
+        IOperation subtraction = new Subtraction();
         operations.put(subtraction.getName(), subtraction);
 
-        SequentialOperation multiplication = new Multiplication();
+        IOperation multiplication = new Multiplication();
         operations.put(multiplication.getName(), multiplication);
 
-        SequentialOperation division = new Division();
+        IOperation division = new Division();
         operations.put(division.getName(), division);
 
-        SequentialOperation power = new PowerOf();
+        IOperation power = new PowerOf();
         operations.put(power.getName(), power);
 
-        SequentialOperation logarithm = new Logarithm();
+        IOperation logarithm = new Logarithm();
         operations.put(logarithm.getName(), logarithm);
     }
 

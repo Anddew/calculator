@@ -3,7 +3,7 @@ package calculator.input.commandlogic;
 import calculator.calculatorcontext.CalculatorContext;
 import calculator.input.command.EvalCommand;
 import calculator.input.command.evalcommandtoken.*;
-import calculator.operation.SequentialOperation;
+import calculator.operation.IOperation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +23,7 @@ public class EvalCommandLogic implements ICommandLogic {
     @Override
     public void useLogic() {
         Stack<IEvalCommandToken> stack = new Stack<>();
+        // TODO: 18.08.2017 сделать через свич и без peek() и реверса 
         for(IEvalCommandToken elem: command.getElementsList()) {
             stack.push(elem);
             if(stack.peek().getTokenType().equals(EvalCommandTokenType.OPERATION_END)) {
@@ -33,7 +34,7 @@ public class EvalCommandLogic implements ICommandLogic {
                 }
                 Collections.reverse(result);
                 if(stack.peek().getTokenType().equals(EvalCommandTokenType.OPERATION)) {
-                    SequentialOperation operation = ((OperationToken) stack.pop()).getOperation();
+                    IOperation operation = ((OperationToken) stack.pop()).getOperation();
                     stack.push(new ValueToken(operation.apply(result)));
                 } else {
                     throw new RuntimeException("Unknown Token type.");

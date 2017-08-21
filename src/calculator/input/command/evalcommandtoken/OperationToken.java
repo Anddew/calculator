@@ -1,16 +1,16 @@
 package calculator.input.command.evalcommandtoken;
 
-import calculator.operation.SequentialOperation;
+import calculator.operation.IOperation;
 
 public class OperationToken implements IEvalCommandToken {
 
-    private SequentialOperation operation;
+    private IOperation operation;
 
-    public OperationToken(SequentialOperation operation) {
+    public OperationToken(IOperation operation) {
         this.operation = operation;
     }
 
-    public SequentialOperation getOperation() {
+    public IOperation getOperation() {
         return operation;
     }
 

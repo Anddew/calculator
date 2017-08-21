@@ -8,7 +8,7 @@ public class QuitCommandCreator implements ICommandCreator {
 
     @Override
     public ICommand createCommand(String arguments) {
-        if (arguments == null) {
+        if (arguments.isEmpty()) {
             return new QuitCommand();
         } else {
             return new InvalidInput("Invalid input. Quit command must have no arguments.");

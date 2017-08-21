@@ -16,7 +16,7 @@ public class EvalCommandCreator implements ICommandCreator {
 
     @Override
     public ICommand createCommand(String arguments) {
-        if (arguments != null) {
+        if (!arguments.isEmpty()) {
             arguments = arguments.trim();
             ReaderAccumulator readerAccumulator = new ReaderAccumulator();
             ParsingMachine parsingMachine = new ParsingMachine(ReaderState.READ_OPERATION, readerAccumulator);

@@ -8,7 +8,7 @@ public class HelpCommandCreator implements ICommandCreator {
 
     @Override
     public ICommand createCommand(String arguments) {
-        if (arguments == null) {
+        if (arguments.isEmpty()) {
             return new HelpCommand();
         } else {
             return new InvalidInput("Invalid input. Help command must have no arguments.");

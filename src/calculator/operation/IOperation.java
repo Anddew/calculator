@@ -1,7 +1,11 @@
 package calculator.operation;
 
-interface IOperation {
+import java.util.List;
+
+public interface IOperation {
 
     String getName();
+
+    double apply(List<Double> argumentsList);
 
 }
