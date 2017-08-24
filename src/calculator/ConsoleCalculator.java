@@ -19,11 +19,11 @@ class ConsoleCalculator {
 
     void startConsoleCalculator() {
         ICommand command;
-        while (!calculatorContext.isQuitCondition() ) {
+        while(!calculatorContext.isQuitCondition() ) {
             String input = reader.read();
             String[] commandParts = input.split("\\s+|$", 2);
             ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);
-            if (commandCreator != null) {
+            if(commandCreator != null) {
                 command = commandCreator.createCommand(commandParts[1]);
             } else {
                 command = new InvalidInput("Invalid input. Invalid command name.");

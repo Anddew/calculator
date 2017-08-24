@@ -56,7 +56,7 @@ public abstract class FSM<State, Accumulator, Input> {
                 break;
             }
             if (newState != null) {
-                //System.out.println("For input " + input + " changing state from " + state + " to " + newState);
+                System.out.println("For input " + input + " changing state from " + state + " to " + newState);
                 state = newState;
             } else {
                 throw new RuntimeException("Proper action in state " + state + " for input " + input + " wasn't found");

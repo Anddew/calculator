@@ -1,11 +1,10 @@
 package calculator.input.command.creator;
 
-import calculator.input.command.EvalCommand;
 import calculator.input.command.ICommand;
 import calculator.input.command.InvalidInput;
 import calculator.reader.stringparsingtool.ParsingMachine;
 import calculator.reader.stringparsingtool.ReaderAccumulator;
-import calculator.reader.stringparsingtool.ReaderState;
+import calculator.reader.stringparsingtool.ReaderStateType;
 
 import java.util.stream.Collectors;
 
@@ -15,13 +14,15 @@ public class EvalCommandCreator implements ICommandCreator {
     public ICommand createCommand(String arguments) {
         if (!arguments.isEmpty()) {
             arguments = arguments.trim();
+            arguments = arguments.concat("\n");
             ReaderAccumulator readerAccumulator = new ReaderAccumulator();
-            ParsingMachine parsingMachine = new ParsingMachine(ReaderState.READ_OPERATION_STATE, readerAccumulator);
+            ParsingMachine parsingMachine = new ParsingMachine(ReaderStateType.READING, readerAccumulator);
             parsingMachine.handle(arguments.chars().mapToObj(e -> (char) e).collect(Collectors.toList()));
+            // TODO: 22.08.2017 переделать чтоб EvalCommand формировалась в парсере 
             ICommand command = parsingMachine.getAccumulator().getCommand();
-            if (command == null) {
-                return new EvalCommand(parsingMachine.getAccumulator().getElementsList());
-            } else return command;
+            if (command != null) {
+                return command;
+            } else throw new RuntimeException("Can`t create command" + this.getClass());
         } else {
             return new InvalidInput("Eval command must have arguments. For more information type \"help\".");
         }
