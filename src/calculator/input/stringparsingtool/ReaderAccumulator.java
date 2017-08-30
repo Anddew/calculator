@@ -1,7 +1,7 @@
-package calculator.reader.stringparsingtool;
+package calculator.input.stringparsingtool;
 
 import calculator.input.command.ICommand;
-import calculator.input.command.evalcommandtoken.IEvalCommandToken;
+import calculator.input.command.creator.evalcommandtoken.IEvalCommandToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,8 @@ import java.util.Stack;
 public class ReaderAccumulator {
 
     public ReaderAccumulator() {
-        stack.add(Limiter.createLimiter());
+        operandCounterStack.add(new OperandCounter());
+        boundsStack.add(new Bounds(1, 1));
     }
 
     private StringBuffer buffer = new StringBuffer();
@@ -21,18 +22,8 @@ public class ReaderAccumulator {
 
     private List<IEvalCommandToken> elementsList = new ArrayList<>();
 
-    public List<IEvalCommandToken> getElementsList() {
+    List<IEvalCommandToken> getElementsList() {
         return elementsList;
-    }
-
-    private String comment;
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     private ICommand command;
@@ -45,11 +36,17 @@ public class ReaderAccumulator {
         this.command = command;
     }
 
-    private Stack<Limiter> stack = new Stack<>();
+    private Stack<OperandCounter> operandCounterStack = new Stack<>();
+    private Stack<Bounds> boundsStack = new Stack<>();
 
-    public Stack<Limiter> getStack() {
-        return stack;
+    Stack<Bounds> getBoundsStack() {
+        return boundsStack;
     }
 
+    Stack<OperandCounter> getOperandCounterStack() {
+        return operandCounterStack;
+    }
+
+    int numberEndTokenExpected;
 
 }

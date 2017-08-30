@@ -1,4 +1,4 @@
-package calculator.reader.stringparsingtool;
+package calculator.input.stringparsingtool;
 
 import java.util.List;
 import java.util.Map;

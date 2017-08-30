@@ -2,12 +2,14 @@ package calculator.input.commandlogic;
 
 import calculator.calculatorcontext.CalculatorContext;
 import calculator.input.command.EvalCommand;
-import calculator.input.command.evalcommandtoken.*;
+import calculator.input.command.creator.evalcommandtoken.IEvalCommandToken;
+import calculator.input.command.creator.evalcommandtoken.OperationToken;
+import calculator.input.command.creator.evalcommandtoken.ValueToken;
 import calculator.operation.IOperation;
 
 import java.util.*;
 
-import static calculator.input.command.evalcommandtoken.EvalCommandTokenType.VALUE;
+import static calculator.input.command.creator.evalcommandtoken.EvalCommandTokenType.VALUE;
 
 public class EvalCommandLogic implements ICommandLogic {
 
@@ -22,8 +24,8 @@ public class EvalCommandLogic implements ICommandLogic {
     @Override
     public void useLogic() {
         Stack<IEvalCommandToken> stack = new Stack<>();
-        for(IEvalCommandToken elem: command.getElementsList()) {
-            switch (elem.getTokenType()) {
+        for(IEvalCommandToken token: command.getTokenList()) {
+            switch (token.getTokenType()) {
                 case OPERATION_END: {
                     LinkedList<Double> result = new LinkedList<>();
                     IOperation operation = null;
@@ -40,7 +42,7 @@ public class EvalCommandLogic implements ICommandLogic {
                 }
                 case OPERATION:
                 case VALUE:
-                    stack.push(elem);
+                    stack.push(token);
                     break;
                 default: throw new RuntimeException("Unknown token type.");
             }

@@ -1,12 +1,21 @@
 package calculator.operation;
 
+import calculator.input.stringparsingtool.Bounds;
+
 import java.util.List;
 
 class Logarithm implements IOperation {
 
+    private Bounds bounds = new Bounds(2, 2);
+
     @Override
     public String getName() {
         return "log";
+    }
+
+    @Override
+    public Bounds getOperandsBounds() {
+        return bounds;
     }
 
     @Override
