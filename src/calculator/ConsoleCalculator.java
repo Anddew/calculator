@@ -18,8 +18,8 @@ class ConsoleCalculator {
 
 
     void startConsoleCalculator() {
-        ICommand command;
         while(!calculatorContext.isQuitCondition() ) {
+            ICommand command;
             String input = reader.read();
             String[] commandParts = input.split("\\s+|$", 2);
             ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);

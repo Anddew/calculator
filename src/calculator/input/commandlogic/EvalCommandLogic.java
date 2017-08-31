@@ -29,15 +29,15 @@ public class EvalCommandLogic implements ICommandLogic {
                 case OPERATION_END: {
                     LinkedList<Double> result = new LinkedList<>();
                     IOperation operation = null;
-                    do {
+                    while (operation == null) {
                         IEvalCommandToken next = stack.pop();
                         if(next.getTokenType().equals(VALUE)) {
                             result.addFirst(((ValueToken) next).getValue());
                         } else {
                             operation = ((OperationToken) next).getOperation();
-                            stack.push(new ValueToken(operation.apply(result)));
                         }
-                    } while (operation == null);
+                    }
+                    stack.push(new ValueToken(operation.apply(result)));
                     break;
                 }
                 case OPERATION:

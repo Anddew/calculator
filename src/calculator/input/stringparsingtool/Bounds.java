@@ -10,6 +10,14 @@ public class Bounds {
         this.upperBound = upperBound;
     }
 
+    int getUpperBound() {
+        return upperBound;
+    }
+
+    int getLowerBound() {
+        return lowerBound;
+    }
+
     boolean aboveUpperBound(int operandNumber) {
         return upperBound < operandNumber;
     }

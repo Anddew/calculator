@@ -4,7 +4,7 @@ class OperandCounter {
 
     private int count;
 
-    void increase() {
+    void increment() {
         count++;
     }
 

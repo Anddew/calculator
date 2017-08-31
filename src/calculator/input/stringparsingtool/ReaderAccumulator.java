@@ -9,24 +9,25 @@ import java.util.Stack;
 
 public class ReaderAccumulator {
 
+    private StringBuffer buffer = new StringBuffer();
+    private List<IEvalCommandToken> elementsList = new ArrayList<>();
+    private ICommand command;
+    private Stack<OperandCounter> operandCounterStack = new Stack<>();
+    private Stack<Bounds> boundsStack = new Stack<>();
+    int numberEndTokenExpected;
+
     public ReaderAccumulator() {
         operandCounterStack.add(new OperandCounter());
         boundsStack.add(new Bounds(1, 1));
     }
 
-    private StringBuffer buffer = new StringBuffer();
-
     StringBuffer getBuffer() {
         return buffer;
     }
 
-    private List<IEvalCommandToken> elementsList = new ArrayList<>();
-
     List<IEvalCommandToken> getElementsList() {
         return elementsList;
     }
-
-    private ICommand command;
 
     public ICommand getCommand() {
         return command;
@@ -36,9 +37,6 @@ public class ReaderAccumulator {
         this.command = command;
     }
 
-    private Stack<OperandCounter> operandCounterStack = new Stack<>();
-    private Stack<Bounds> boundsStack = new Stack<>();
-
     Stack<Bounds> getBoundsStack() {
         return boundsStack;
     }
@@ -46,7 +44,5 @@ public class ReaderAccumulator {
     Stack<OperandCounter> getOperandCounterStack() {
         return operandCounterStack;
     }
-
-    int numberEndTokenExpected;
 
 }

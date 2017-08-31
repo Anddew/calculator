@@ -19,40 +19,28 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
 
         stateTransitionMap.put(ReaderStateType.READING, Arrays.asList(
                 new ConditionAndAction(
-                        Character::isLetter,
+                        input -> (Character.isLetter(input) && Character.isLowerCase(input)) || Character.isDigit(input),
                         input -> {
-                            getAccumulator().getOperandCounterStack().peek().increase();
+                            getAccumulator().getOperandCounterStack().peek().increment();
                             if(!getAccumulator().getBoundsStack().peek().aboveUpperBound(
                                     getAccumulator().getOperandCounterStack().peek().getCount())
                                     ) {
                                 getAccumulator().getBuffer().append(input);
-                                return ReaderStateType.READING_OPERATION;
-                            } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is out of bounds while READING.isDigit()"));
-                                return ReaderStateType.FAILURE;
-                            }
+                                if(Character.isLetter(input)) {
+                                    return ReaderStateType.READING_OPERATION;
+                                } else {
+                                    return ReaderStateType.READING_VALUE;
+                                }
 
-                        }
-                ),
-
-                new ConditionAndAction(
-                        Character::isDigit,
-                        input -> {
-                            getAccumulator().getOperandCounterStack().peek().increase();
-                            if(!getAccumulator().getBoundsStack().peek().aboveUpperBound(
-                                            getAccumulator().getOperandCounterStack().peek().getCount())
-                            ) {
-                                getAccumulator().getBuffer().append(input);
-                                return ReaderStateType.READING_VALUE;
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is out of bounds while READING.isDigit()"));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Max number of operands - " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
                                 return ReaderStateType.FAILURE;
                             }
                         }
                 ),
 
                 new ConditionAndAction(
-                        input -> input == ' ',
+                        Character::isWhitespace,
                         input -> getState()
                 ),
 
@@ -72,7 +60,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     return ReaderStateType.FAILURE;
                                 }
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is out of bounds while READING ')'"));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -81,18 +69,12 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> input == '\n',
                         input -> {
-                            if(!getAccumulator()
-                                    .getBoundsStack()
-                                    .peek()
-                                    .isOutOfBounds(
-                                            getAccumulator()
-                                                    .getOperandCounterStack()
-                                                    .peek()
-                                                    .getCount())) {
+                            if(!getAccumulator().getBoundsStack().peek().isOutOfBounds(
+                                            getAccumulator().getOperandCounterStack().peek().getCount())) {
                                 getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList()));
                                 return ReaderStateType.FINISHING;
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is out of bounds while READING \\n"));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -131,7 +113,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     getAccumulator().getBuffer().setLength(0);
                                     return ReaderStateType.READING;
                                 } else {
-                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is out of bounds while READING_OPERATION '('"));
+                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
                                     return ReaderStateType.FAILURE;
                                 }
                             } else {
@@ -187,7 +169,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     getAccumulator().getBuffer().setLength(0);
                                     return ReaderStateType.READING;
                                 } else {
-                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is out of bounds while READING_VALUE ' '"));
+                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Max number of operands - " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
                                     return ReaderStateType.FAILURE;
                                 }
 
@@ -221,7 +203,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     }
 
                                 } else {
-                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is out of bounds while READING_VALUE ')'"));
+                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
                                     return ReaderStateType.FAILURE;
                                 }
 
@@ -243,9 +225,10 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                 );
                                 getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList()));
                                 return ReaderStateType.FINISHING;
+                            } else {
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Unexpected end of input."));
+                                return ReaderStateType.FAILURE;
                             }
-                            getAccumulator().setCommand(new InvalidInput("Invalid input. Unexpected end of input."));
-                            return ReaderStateType.FAILURE;
                         }
                 ),
 
