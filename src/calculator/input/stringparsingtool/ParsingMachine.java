@@ -19,7 +19,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
 
         stateTransitionMap.put(ReaderStateType.READING, Arrays.asList(
                 new ConditionAndAction(
-                        input -> (Character.isLetter(input) && Character.isLowerCase(input)) || Character.isDigit(input),
+                        input -> (Character.isLetter(input) && Character.isLowerCase(input)) || Character.isDigit(input) || input == '-',
                         input -> {
                             getAccumulator().getOperandCounterStack().peek().increment();
                             if(!getAccumulator().getBoundsStack().peek().aboveUpperBound(

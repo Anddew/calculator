@@ -20,7 +20,9 @@ public class EvalCommandCreator implements ICommandCreator {
             ICommand command = parsingMachine.getAccumulator().getCommand();
             if (command != null) {
                 return command;
-            } else throw new RuntimeException("Can`t create command" + this.getClass());
+            } else {
+                return new InvalidInput("Invalid input. Unknown command.");
+            }
         } else {
             return new InvalidInput("Eval command must have arguments. For more information type \"help\".");
         }
