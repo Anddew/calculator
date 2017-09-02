@@ -245,7 +245,6 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> input == '\n',
                         input -> {
-                            System.out.println(getAccumulator().getElementsList());
                             getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList()));
                             return ReaderStateType.FINISHING;
                         }

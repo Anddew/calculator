@@ -4,6 +4,7 @@ public enum EvalCommandTokenType {
 
     OPERATION,
     VALUE,
-    OPERATION_END
+    OPERATION_END,
+    ERROR
 
 }
