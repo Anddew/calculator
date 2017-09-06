@@ -11,4 +11,5 @@ class Addition extends SequentialOperation {
     public double accumulate(double accumulator, double value) {
         return accumulator + value;
     }
+
 }

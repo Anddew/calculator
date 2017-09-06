@@ -1,19 +1,19 @@
 package calculator.input.command;
 
-import calculator.input.command.evalcommandtoken.IEvalCommandToken;
+import calculator.input.command.creator.evalcommandtoken.IEvalCommandToken;
 
 import java.util.List;
 
 public class EvalCommand implements ICommand {
 
-    private List<IEvalCommandToken> elementsList;
+    private List<IEvalCommandToken> tokenList;
 
-    public EvalCommand(List<IEvalCommandToken> elementsList) {
-        this.elementsList = elementsList;
+    public EvalCommand(List<IEvalCommandToken> tokenList) {
+        this.tokenList = tokenList;
     }
 
-    public List<IEvalCommandToken> getElementsList() {
-        return elementsList;
+    public List<IEvalCommandToken> getTokenList() {
+        return tokenList;
     }
 
     public CommandMarker getCommandMarker() {

@@ -1,4 +1,4 @@
-package calculator.input.command.evalcommandtoken;
+package calculator.input.command.creator.evalcommandtoken;
 
 public class OperationEndToken implements IEvalCommandToken {
 

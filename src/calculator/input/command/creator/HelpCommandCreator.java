@@ -7,11 +7,11 @@ import calculator.input.command.InvalidInput;
 public class HelpCommandCreator implements ICommandCreator {
 
     @Override
-    public ICommand createCommand(String arguments) {
+    public ICommand createCommand(int prefixLength, String arguments) {
         if (arguments.isEmpty()) {
             return new HelpCommand();
         } else {
-            return new InvalidInput("Invalid input. Help command must have no arguments.");
+            return new InvalidInput("Invalid input. Expression has wrong format: help command must have no arguments.");
         }
     }
 

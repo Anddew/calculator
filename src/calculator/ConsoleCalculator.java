@@ -10,25 +10,28 @@ import calculator.reader.ConsoleReader;
 import calculator.reader.IReader;
 import calculator.writer.ConsoleWriter;
 
+import java.util.Arrays;
+
 class ConsoleCalculator {
 
     private CommandHandlerFactory factory = new CommandHandlerFactory();
     private CalculatorContext calculatorContext = new CalculatorContext(new ConsoleWriter());
     private IReader reader = new ConsoleReader();
 
-
     void startConsoleCalculator() {
-        ICommand command;
-        while (!calculatorContext.isQuitCondition() ) {
+        while(!calculatorContext.isQuitCondition() ) {
+            ICommand command;
             String input = reader.read();
-            String[] commandParts = input.split("\\s+|$", 2);
-            ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);
-            if (commandCreator != null) {
-                command = commandCreator.createCommand(commandParts[1]);
-            } else {
-                command = new InvalidInput("Invalid input. Invalid command name.");
+            if(!input.isEmpty()) {
+                String[] commandParts = input.split("\\s+|$", 2);
+                ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);
+                if(commandCreator != null) {
+                    command = commandCreator.createCommand(input.length() - commandParts[1].length(), commandParts[1]);
+                } else {
+                    command = new InvalidInput("Invalid input. Invalid command name. ('" + commandParts[0] + "':" + (input.length() - commandParts[1].length()) + ")");
+                }
+                factory.getLogic(command, calculatorContext).useLogic();
             }
-            factory.getLogic(command, calculatorContext).useLogic();
         }
     }
 }

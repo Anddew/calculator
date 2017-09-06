@@ -2,12 +2,16 @@ package calculator.input.commandlogic;
 
 import calculator.calculatorcontext.CalculatorContext;
 import calculator.input.command.EvalCommand;
-import calculator.input.command.evalcommandtoken.*;
+import calculator.input.command.creator.evalcommandtoken.ErrorToken;
+import calculator.input.command.creator.evalcommandtoken.IEvalCommandToken;
+import calculator.input.command.creator.evalcommandtoken.OperationToken;
+import calculator.input.command.creator.evalcommandtoken.ValueToken;
 import calculator.operation.IOperation;
+import calculator.operation.OperationResult;
 
 import java.util.*;
 
-import static calculator.input.command.evalcommandtoken.EvalCommandTokenType.VALUE;
+import static calculator.input.command.creator.evalcommandtoken.EvalCommandTokenType.VALUE;
 
 public class EvalCommandLogic implements ICommandLogic {
 
@@ -22,38 +26,45 @@ public class EvalCommandLogic implements ICommandLogic {
     @Override
     public void useLogic() {
         Stack<IEvalCommandToken> stack = new Stack<>();
-        for(IEvalCommandToken elem: command.getElementsList()) {
-            switch (elem.getTokenType()) {
-                case OPERATION_END: {
-                    List<Double> result = new LinkedList<>();
-                    boolean breakCondition = false;
-                    while(!breakCondition) {
+        boolean isError = false;
+        for(IEvalCommandToken token: command.getTokenList()) {
+            if(isError) {
+                break;
+            }
+            switch (token.getTokenType()) {
+                case OPERATION_END:
+                    LinkedList<Double> result = new LinkedList<>();
+                    IOperation operation = null;
+                    while (operation == null) {
                         IEvalCommandToken next = stack.pop();
                         if(next.getTokenType().equals(VALUE)) {
-                            result.add(0, ((ValueToken) next).getValue());
+                            result.addFirst(((ValueToken) next).getValue());
                         } else {
-                            IOperation operation = ((OperationToken) next).getOperation();
-                            stack.push(new ValueToken(operation.apply(result)));
-                            breakCondition = true;
+                            operation = ((OperationToken) next).getOperation();
                         }
                     }
+                    OperationResult operationResult = operation.apply(result);
+                    if(operationResult.isResult()) {
+                        stack.push(new ValueToken(operationResult.getResult()));
+                    } else {
+                        stack.clear();
+                        stack.push(new ErrorToken(operationResult.getErrorMessage()));
+                        isError = true;
+                    }
                     break;
-                }
-                case OPERATION: {
-                    stack.push(elem);
+                case OPERATION:
+                case VALUE:
+                    stack.push(token);
                     break;
-                }
-                case VALUE: {
-                    stack.push(elem);
-                    break;
-                }
-                default: {
-                    throw new RuntimeException("Unknown token type.");
-                }
+                default: throw new RuntimeException("Unknown token type - " + token.getTokenType());
             }
         }
-
-        calculatorContext.getWriter().write(((ValueToken) stack.pop()).getValue());
+        IEvalCommandToken result = stack.pop();
+        if(result.getTokenType().equals(VALUE)) {
+            calculatorContext.getWriter().write(((ValueToken) result).getValue());
+        } else {
+            calculatorContext.getWriter().write(((ErrorToken) result).getErrorMessage());
+        }
 
     }
 }
