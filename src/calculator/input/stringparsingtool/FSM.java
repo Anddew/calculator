@@ -45,6 +45,7 @@ public abstract class FSM<State, Accumulator, Input> {
 
     public void handle(List<Input> inputs) {
         for (Input input : inputs) {
+            everyInputAction();
             State newState = null;
             for (ConditionAndAction conditionAndAction : getStateTransitionMap().get(state)) {
                 if (conditionAndAction.getCondition().apply(input)) {
@@ -59,8 +60,11 @@ public abstract class FSM<State, Accumulator, Input> {
 //                System.out.println("For input " + input + " changing state from " + state + " to " + newState);
                 state = newState;
             } else {
-                throw new RuntimeException("Proper action in state " + state + " for input " + input + " wasn't found");
+                throw new RuntimeException("Proper action in state " + state + " for input " + input + " wasn't found.");
             }
         }
     }
+
+    protected void everyInputAction() {}
+
 }

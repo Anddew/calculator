@@ -14,9 +14,11 @@ public class ReaderAccumulator {
     private ICommand command;
     private Stack<OperandCounter> operandCounterStack = new Stack<>();
     private Stack<Bounds> boundsStack = new Stack<>();
+    private int prefixLength;
     int numberEndTokenExpected;
 
-    public ReaderAccumulator() {
+    public ReaderAccumulator(int prefixLength) {
+        this.prefixLength = prefixLength;
         operandCounterStack.add(new OperandCounter());
         boundsStack.add(new Bounds(1, 1));
     }
@@ -45,4 +47,7 @@ public class ReaderAccumulator {
         return operandCounterStack;
     }
 
+    public int getPrefixLength() {
+        return prefixLength;
+    }
 }

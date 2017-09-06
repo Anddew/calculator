@@ -4,5 +4,5 @@ import calculator.input.command.ICommand;
 
 public interface ICommandCreator {
 
-    ICommand createCommand(String arguments);
+    ICommand createCommand(int prefixLength, String arguments);
 }

@@ -33,10 +33,10 @@ class Logarithm implements IOperation {
 
     @Override
     public Optional<String> checkArguments(List<Double> argumentsList) {
-        if(argumentsList.get(0) >= 0) {
+        if(argumentsList.get(0) > 0 && argumentsList.get(1) > 0) {
             return Optional.empty();
         } else {
-            return Optional.of("Calculating error. Logarithm base is less than zero.");
+            return Optional.of("Calculating error. Both logarithm arguments must be positive.");
         }
     }
 
