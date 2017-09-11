@@ -1,7 +1,9 @@
 package calculator.reader;
 
+import java.io.IOException;
+
 public interface IReader {
 
-    String read();
+    String read() throws IOException;
 
 }
