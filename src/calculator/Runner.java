@@ -9,30 +9,52 @@ import calculator.writer.IWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Runner {
     public static void main(String[] args) {
-        String inputFilePath = args[0].substring(3);
-        String outputFilePath = args[1].substring(3);
-        IReader reader = null;
-        IWriter writer = null;
-        try {
-            reader = new FileReader(inputFilePath);
-        } catch (FileNotFoundException e) {
-            System.out.println("FileNotFoundException. Can`t read file: " + inputFilePath);
-        }
-        if(reader == null) {
-            reader = new ConsoleReader();
+        String inputFilePath = null;
+        String outputFilePath = null;
+        boolean isValidArgs = true;
+
+        for(String elem: args) {
+            if(elem.startsWith("-i=") && inputFilePath == null) {
+                inputFilePath = elem.substring(3);
+            } else if(elem.startsWith("-o=") && outputFilePath == null) {
+                outputFilePath = elem.substring(3);
+            } else {
+                System.out.println("Invalid I\\O arguments. (" + Arrays.toString(args) + ")");
+                isValidArgs = false;
+                break;
+            }
         }
 
-        try {
-            writer = new FileWriter(outputFilePath);
+        if(isValidArgs) {
+            try {
+                IReader reader;
+                IWriter writer;
+
+                if(inputFilePath != null) {
+                    reader = new FileReader(inputFilePath);
+                } else {
+                    reader = new ConsoleReader();
+                }
+
+                if(outputFilePath != null) {
+                    writer = new FileWriter(outputFilePath);
+                } else {
+                    writer = new ConsoleWriter();
+                }
+
+                new Calculator(reader, writer).startCalculator();
+
+            } catch (FileNotFoundException e) {
+                System.out.println("FileNotFoundException. Can`t read file: " + inputFilePath);
+            } catch (IOException e) {
+                System.out.println("IOException. Can`t get access to file: " + outputFilePath);
+            }
+
         }
-        catch (IOException e) {
-            System.out.println("IOException. Can`t get access to file: " + outputFilePath);
-        }
-        if(writer == null)
-            writer = new ConsoleWriter();
-        new Calculator(reader, writer).startCalculator();
     }
+
 }

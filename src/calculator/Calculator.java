@@ -31,15 +31,19 @@ class Calculator {
             try {
                 ICommand command;
                 String input = reader.read();
-                if(!input.isEmpty()) {
-                    String[] commandParts = input.split("\\s+|$", 2);
-                    ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);
-                    if(commandCreator != null) {
-                        command = commandCreator.createCommand(input.length() - commandParts[1].length(), commandParts[1]);
-                    } else {
-                        command = new InvalidInput("Invalid input. Invalid command name. ('" + commandParts[0] + "':" + (input.length() - commandParts[1].length()) + ")");
+                if(input != null) {
+                    if(!input.isEmpty()) {
+                        String[] commandParts = input.split("\\s+|$", 2);
+                        ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);
+                        if(commandCreator != null) {
+                            command = commandCreator.createCommand(input.length() - commandParts[1].length(), commandParts[1]);
+                        } else {
+                            command = new InvalidInput("Invalid input. Invalid command name. ('" + commandParts[0] + "':" + (input.length() - commandParts[1].length()) + ")");
+                        }
+                        factory.getLogic(command, calculatorContext).useLogic();
                     }
-                    factory.getLogic(command, calculatorContext).useLogic();
+                } else {
+                    calculatorContext.setQuitCondition();
                 }
             } catch (IOException e) {
 
