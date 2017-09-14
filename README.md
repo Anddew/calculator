@@ -1,31 +1,31 @@
 # Calculator
 
-## Assignment
+## Project objective
 Educational application.
 
 ## Description
-Application performs various operations under numbers.
+Application performs various operations with numbers.
 
 ## Input / Output
-Basic I/O source - Console.
-To read and/or writer data in/from file system you should pass a route to the file as an argument into the application.
+Basic I/O stream - Console.
+To read and/or writer data in/from file system you should provide a path to the file as an argument.
 Examples:
-`-i=C:\Calculator\input.txt` : application will use this file as an input source.
-`-o=C:\Calculator\output.txt` : application will use this file as an output source.
+`-i=C:\Calculator\input.txt` : application will use this file as an input stream.
+`-o=C:\Calculator\output.txt` : application will use this file as an output stream.
 
 ## Commands
-* `quit`: Close application.
-* `help`: Get help message.
-* `eval`: Calculate expression.
+* `quit`: closes application.
+* `help`: prints out help message.
+* `eval`: evaluates following expression.
 
 ## Operations and input format
-* Addition : `add(sequence)`. Max number of input sequence - 20.
-* Subtraction : `sub(sequence)`. Minuend - first element, subtrahends - second and other. Result is a difference between first element and each followed elements step by step. Max number of input sequence - 20.
-* Multiplication : `mul(sequence)`. Max number of input sequence - 20.
-* Division : `div(sequence)`. Dividend - first element, divisors - second and other. Result is quotient of first element and each followed elements step by step. Max number of input sequence - 20.
-* Power : `pow(base exponent)`. Result is a base to the power of exponent.
-* Logarithm : `log(base argument)`. Result is an exponent to which base must be raised to reach argument value.
-All operations can be at any position inside another operation. The result of this operation will process as a number of the outside operation.
+* Addition : `add(operand_1, operand_2, ... , operand_n)`. Max number of operands - 20.
+* Subtraction : `sub(operand_1, operand_2, ... , operand_n)`. Minuend - first, subtrahends - second and others. Result is a difference between first and each followed step by step. Max number of input operands - 20.
+* Multiplication : `mul(operand_1, operand_2, ... , operand_n)`. Max number of operands - 20.
+* Division : `div(operand_1, operand_2, ... , operand_n)`. Dividend - first, divisors - second and others. Result is quotient of first and each followed step by step. Max number of operands - 20.
+* Power : `pow(base exponent)`. Result is a base in power of exponent.
+* Logarithm : `log(base operand)`. Result is a logarithm to base 'base' of 'operand'.
+Operations can be nested: result of an operation can be provided as an operand to other operation.
 
 ## Input examples
 ```java
