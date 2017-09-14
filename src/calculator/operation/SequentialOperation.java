@@ -9,7 +9,7 @@ abstract class SequentialOperation implements IOperation {
 
     private final static int MAX_OPERANDS_NUMBER = 20;
 
-    private Bounds bounds = new Bounds(1, MAX_OPERANDS_NUMBER);
+    private final static Bounds bounds = new Bounds(1, MAX_OPERANDS_NUMBER);
 
     @Override
     public OperationResult apply(List<Double> argumentsList) {

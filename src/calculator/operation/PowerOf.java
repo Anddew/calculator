@@ -7,7 +7,7 @@ import java.util.Optional;
 
 class PowerOf implements IOperation {
 
-    private Bounds bounds = new Bounds(2, 2);
+    private static final Bounds bounds = new Bounds(2, 2);
 
     @Override
     public String getName() {

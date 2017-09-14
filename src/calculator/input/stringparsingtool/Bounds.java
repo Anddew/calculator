@@ -22,7 +22,7 @@ public class Bounds {
         return upperBound < operandNumber;
     }
 
-        boolean isOutOfBounds(int operandNumber) {
+    boolean isOutOfBounds(int operandNumber) {
         return (operandNumber < lowerBound) || (upperBound < operandNumber);
     }
 }
