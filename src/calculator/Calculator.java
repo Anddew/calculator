@@ -28,25 +28,21 @@ class Calculator {
 
     void startCalculator() {
         while ( !calculatorContext.isQuitCondition() ) {
-            try {
-                ICommand command;
-                String input = reader.read();
-                if(input != null) {
-                    if(!input.isEmpty()) {
-                        String[] commandParts = input.split("\\s+|$", 2);
-                        ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);
-                        if(commandCreator != null) {
-                            command = commandCreator.createCommand(input.length() - commandParts[1].length(), commandParts[1]);
-                        } else {
-                            command = new InvalidInput("Invalid input. Invalid command name. ('" + commandParts[0] + "':" + (input.length() - commandParts[1].length()) + ")");
-                        }
-                        factory.getLogic(command, calculatorContext).useLogic();
+            ICommand command;
+            String input = reader.read();
+            if(input != null) {
+                if(!input.isEmpty()) {
+                    String[] commandParts = input.split("\\s+|$", 2);
+                    ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);
+                    if(commandCreator != null) {
+                        command = commandCreator.createCommand(input.length() - commandParts[1].length(), commandParts[1]);
+                    } else {
+                        command = new InvalidInput("Invalid input. Invalid command name. ('" + commandParts[0] + "':" + (input.length() - commandParts[1].length()) + ")");
                     }
-                } else {
-                    calculatorContext.setQuitCondition();
+                    factory.getLogic(command, calculatorContext).useLogic();
                 }
-            } catch (IOException e) {
-
+            } else {
+                calculatorContext.setQuitCondition();
             }
         }
     }

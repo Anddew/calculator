@@ -6,13 +6,18 @@ public class FileReader implements IReader {
 
     private BufferedReader reader;
 
-    public FileReader(String filePath) throws FileNotFoundException {
+    FileReader(String filePath) throws FileNotFoundException {
         this.reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
     }
 
     @Override
-    public String read() throws IOException {
-        return reader.readLine();
+    public String read() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            System.out.println("Can't read from file.");
+            return null;
+        }
     }
 
 }

@@ -7,7 +7,6 @@ public class WriterFactory {
 
     public static IWriter getWriter(String[] args) {
         String outputArgument = Arrays.stream(args).filter(x -> x.startsWith("-o=")).findFirst().orElse(null);
-        System.out.println(outputArgument);
         if(outputArgument != null) {
             try {
                 return new FileWriter(outputArgument.substring(3));
