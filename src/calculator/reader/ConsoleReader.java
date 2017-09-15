@@ -11,4 +11,8 @@ public class ConsoleReader implements IReader {
         return scanner.nextLine();
     }
 
+    @Override
+    public void close() {
+        //NOP
+    }
 }

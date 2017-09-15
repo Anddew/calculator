@@ -4,4 +4,6 @@ public interface IReader {
 
     String read();
 
+    void close();
+
 }

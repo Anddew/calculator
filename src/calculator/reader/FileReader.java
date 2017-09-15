@@ -20,4 +20,13 @@ public class FileReader implements IReader {
         }
     }
 
+    @Override
+    public void close() {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Input file have not been closed.");
+        }
+
+    }
 }

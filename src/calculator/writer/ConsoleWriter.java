@@ -12,4 +12,8 @@ public class ConsoleWriter implements IWriter {
         System.out.println(result);
     }
 
+    @Override
+    public void close() {
+        //NOP
+    }
 }

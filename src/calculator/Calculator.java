@@ -20,9 +20,11 @@ class Calculator {
     private CommandHandlerFactory factory = new CommandHandlerFactory();
     private CalculatorContext calculatorContext;
     private IReader reader;
+    private IWriter writer;
 
     public Calculator(IReader reader, IWriter writer) {
         this.reader = reader;
+        this.writer = writer;
         this.calculatorContext = new CalculatorContext(writer);
     }
 
@@ -45,5 +47,7 @@ class Calculator {
                 calculatorContext.setQuitCondition();
             }
         }
+        reader.close();
+        writer.close();
     }
 }

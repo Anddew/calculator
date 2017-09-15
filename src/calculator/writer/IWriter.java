@@ -6,5 +6,6 @@ public interface IWriter {
 
     void write(double result);
 
+    void close();
 
 }

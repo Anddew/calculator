@@ -32,4 +32,14 @@ class FileWriter implements IWriter {
         }
     }
 
+    @Override
+    public void close() {
+        try {
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Can't get access to file.");
+        }
+
+    }
 }
