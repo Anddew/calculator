@@ -3,11 +3,11 @@ package calculator.writer;
 import java.io.IOException;
 import java.io.Writer;
 
-class FileWriter implements IWriter {
+public class FileWriter implements IWriter {
 
     private Writer writer;
 
-    FileWriter(String outputFilePath) throws IOException {
+    public FileWriter(String outputFilePath) throws IOException {
         writer = new java.io.FileWriter(outputFilePath);
     }
 

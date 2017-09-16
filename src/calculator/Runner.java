@@ -9,7 +9,8 @@ import java.util.Arrays;
 
 public class Runner {
     public static void main(String[] args) {
-        if(AppArgsValidator.checkArguments(args)) {
+        AppArgsValidator validator = new AppArgsValidator();
+        if(validator.checkArguments(args)) {
             IReader reader = ReaderFactory.getReader(args);
             IWriter writer = WriterFactory.getWriter(args);
             if(reader != null && writer != null) {

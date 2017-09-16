@@ -6,7 +6,7 @@ public class FileReader implements IReader {
 
     private BufferedReader reader;
 
-    FileReader(String filePath) throws FileNotFoundException {
+    public FileReader(String filePath) throws FileNotFoundException {
         this.reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
     }
 

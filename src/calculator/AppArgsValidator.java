@@ -1,21 +1,14 @@
 package calculator;
 
-public class AppArgsValidator {
+import java.util.Arrays;
 
-    public static boolean checkArguments(String[] args) {
-        int inputFilePathCount = 0;
-        int outputFilePathCount = 0;
+class AppArgsValidator {
 
-        for(String elem : args) {
-            if(elem.startsWith("-i=")) {
-                inputFilePathCount++;
-            } else if(elem.startsWith("-o=")) {
-                outputFilePathCount++;
-            } else {
-                return false;
-            }
-        }
-        return (inputFilePathCount <= 1) && (outputFilePathCount <= 1);
+    boolean checkArguments(String[] args) {
+        long inputPathsCount = Arrays.stream(args).filter(x -> x.startsWith("-i=")).count();
+        long outputPathsCount = Arrays.stream(args).filter(x -> x.startsWith("-o=")).count();
+        long othersCount = Arrays.stream(args).filter(x -> !x.startsWith("-i=") && !x.startsWith("-o=")).count();
+        return inputPathsCount <= 1 && outputPathsCount <= 1 && othersCount == 0;
     }
 
 }
