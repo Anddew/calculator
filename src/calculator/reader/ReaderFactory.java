@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class ReaderFactory {
 
-    public static IReader getReader(String[] args) {
+    public IReader getReader(String[] args) {
         String inputArgument = Arrays.stream(args).filter(x -> x.startsWith("-i=")).findFirst().orElse(null);
         if(inputArgument != null) {
             try {

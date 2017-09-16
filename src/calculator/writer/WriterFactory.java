@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class WriterFactory {
 
-    public static IWriter getWriter(String[] args) {
+    public IWriter getWriter(String[] args) {
         String outputArgument = Arrays.stream(args).filter(x -> x.startsWith("-o=")).findFirst().orElse(null);
         if(outputArgument != null) {
             try {

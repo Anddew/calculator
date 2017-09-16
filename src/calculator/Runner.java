@@ -10,9 +10,12 @@ import java.util.Arrays;
 public class Runner {
     public static void main(String[] args) {
         AppArgsValidator validator = new AppArgsValidator();
+        ReaderFactory readerFactory = new ReaderFactory();
+        WriterFactory writerFactory = new WriterFactory();
+
         if(validator.checkArguments(args)) {
-            IReader reader = ReaderFactory.getReader(args);
-            IWriter writer = WriterFactory.getWriter(args);
+            IReader reader = readerFactory.getReader(args);
+            IWriter writer = writerFactory.getWriter(args);
             if(reader != null && writer != null) {
                 new Calculator(reader, writer).startCalculator();
             }
@@ -20,5 +23,4 @@ public class Runner {
             System.out.println("Incorrect I/O arguments: " + Arrays.toString(args));
         }
     }
-
 }
