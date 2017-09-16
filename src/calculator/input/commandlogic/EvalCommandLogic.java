@@ -26,11 +26,17 @@ public class EvalCommandLogic implements ICommandLogic {
     @Override
     public void useLogic() {
         Stack<IEvalCommandToken> stack = new Stack<>();
-        boolean isError = false;
+        evaluateCommandContent(stack);
+        IEvalCommandToken result = stack.pop();
+        if(result.getTokenType().equals(VALUE)) {
+            calculatorContext.getWriter().write(((ValueToken) result).getValue());
+        } else {
+            calculatorContext.getWriter().write(((ErrorToken) result).getErrorMessage());
+        }
+    }
+
+    private void evaluateCommandContent(Stack<IEvalCommandToken> stack) {
         for(IEvalCommandToken token: command.getTokenList()) {
-            if(isError) {
-                break;
-            }
             switch (token.getTokenType()) {
                 case OPERATION_END:
                     LinkedList<Double> result = new LinkedList<>();
@@ -49,7 +55,7 @@ public class EvalCommandLogic implements ICommandLogic {
                     } else {
                         stack.clear();
                         stack.push(new ErrorToken(operationResult.getErrorMessage()));
-                        isError = true;
+                        return;
                     }
                     break;
                 case OPERATION:
@@ -59,12 +65,5 @@ public class EvalCommandLogic implements ICommandLogic {
                 default: throw new RuntimeException("Unknown token type - " + token.getTokenType());
             }
         }
-        IEvalCommandToken result = stack.pop();
-        if(result.getTokenType().equals(VALUE)) {
-            calculatorContext.getWriter().write(((ValueToken) result).getValue());
-        } else {
-            calculatorContext.getWriter().write(((ErrorToken) result).getErrorMessage());
-        }
-
     }
 }
