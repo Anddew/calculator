@@ -34,7 +34,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     return ReaderStateType.READING_VALUE;
                                 }
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Max number of operands - " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Max number of operands - " + getAccumulator().getBoundsStack().peek().getUpperBound() + ".", getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -57,11 +57,11 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     getAccumulator().getElementsList().add(new OperationEndToken());
                                     return ReaderStateType.WAITING_FOR_END_SYMBOL;
                                 } else {
-                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Unbalanced number of end token reached. ('" + input + "':" + inputsCounter + ")"));
+                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Unbalanced number of end token reached. ('" + input + "':" + inputsCounter + ")", getAccumulator().getCalculatorContext()));
                                     return ReaderStateType.FAILURE;
                                 }
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + ".", getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -73,10 +73,10 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                             if(!getAccumulator().getBoundsStack().peek().isOutOfBounds(
                                     getAccumulator().getOperandCounterStack().peek().getCount()
                             )) {
-                                getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList()));
+                                getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList(), getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FINISHING;
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + ".", getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -85,7 +85,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> true,
                         input -> {
-                            getAccumulator().setCommand(new InvalidInput("Invalid input. Illegal character. ('" + input + "':" + inputsCounter +")"));
+                            getAccumulator().setCommand(new InvalidInput("Invalid input. Illegal character. ('" + input + "':" + inputsCounter +")", getAccumulator().getCalculatorContext()));
                             return ReaderStateType.FAILURE;
                         }
                 )
@@ -124,11 +124,11 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     getAccumulator().getBuffer().setLength(0);
                                     return ReaderStateType.READING;
                                 } else {
-                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
+                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + ".", getAccumulator().getCalculatorContext()));
                                     return ReaderStateType.FAILURE;
                                 }
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Unknown function name. ('" + getAccumulator().getBuffer().toString() +"':" + (inputsCounter - getAccumulator().getBuffer().toString().length()) + ")"));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Unknown function name. ('" + getAccumulator().getBuffer().toString() +"':" + (inputsCounter - getAccumulator().getBuffer().toString().length()) + ")", getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -137,7 +137,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> input == '\n',
                         input -> {
-                            getAccumulator().setCommand(new InvalidInput("Invalid input. Expression has wrong format."));
+                            getAccumulator().setCommand(new InvalidInput("Invalid input. Expression has wrong format.", getAccumulator().getCalculatorContext()));
                             return ReaderStateType.FAILURE;
                         }
                 ),
@@ -145,7 +145,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> true,
                         input -> {
-                            getAccumulator().setCommand(new InvalidInput("Invalid input. Illegal character. ('" + input + "':" + inputsCounter +")"));
+                            getAccumulator().setCommand(new InvalidInput("Invalid input. Illegal character. ('" + input + "':" + inputsCounter +")", getAccumulator().getCalculatorContext()));
                             return ReaderStateType.FAILURE;
                         }
                 )
@@ -167,7 +167,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                 getAccumulator().getBuffer().append(input);
                                 return ReaderStateType.READING_VALUE;
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Value has dot symbol several times."));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Value has dot symbol several times.", getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -188,12 +188,12 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     getAccumulator().getBuffer().setLength(0);
                                     return ReaderStateType.READING;
                                 } else {
-                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Max number of operands - " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
+                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Max number of operands - " + getAccumulator().getBoundsStack().peek().getUpperBound() + ".", getAccumulator().getCalculatorContext()));
                                     return ReaderStateType.FAILURE;
                                 }
 
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Symbol '.' can not be at the end of value." + getAccumulator().getBuffer().toString()));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Symbol '.' can not be at the end of value." + getAccumulator().getBuffer().toString(), getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -217,17 +217,17 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                     if(getAccumulator().numberEndTokenExpected >= 0) {
                                         return ReaderStateType.WAITING_FOR_END_SYMBOL;
                                     } else {
-                                        getAccumulator().setCommand(new InvalidInput("Invalid input. Unbalanced number of end token reached. ('" + input + "':" + inputsCounter + ")"));
+                                        getAccumulator().setCommand(new InvalidInput("Invalid input. Unbalanced number of end token reached. ('" + input + "':" + inputsCounter + ")", getAccumulator().getCalculatorContext()));
                                         return ReaderStateType.FAILURE;
                                     }
 
                                 } else {
-                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + "."));
+                                    getAccumulator().setCommand(new InvalidInput("Invalid input. Number of operands is above upper bound. Number of operand must be inside the bounds - " + getAccumulator().getBoundsStack().peek().getLowerBound() + " and " + getAccumulator().getBoundsStack().peek().getUpperBound() + ".", getAccumulator().getCalculatorContext()));
                                     return ReaderStateType.FAILURE;
                                 }
 
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Symbol '.' can not be at the end of value." + getAccumulator().getBuffer().toString()));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Symbol '.' can not be at the end of value." + getAccumulator().getBuffer().toString(), getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -242,10 +242,10 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                                 Double.parseDouble(getAccumulator().getBuffer().toString())
                                         )
                                 );
-                                getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList()));
+                                getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList(), getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FINISHING;
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Unexpected end of input."));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Unexpected end of input.", getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -254,7 +254,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> true,
                         input -> {
-                            getAccumulator().setCommand(new InvalidInput("Invalid input. Illegal character. ('" + input + "':" + inputsCounter +")"));
+                            getAccumulator().setCommand(new InvalidInput("Invalid input. Illegal character. ('" + input + "':" + inputsCounter +")", getAccumulator().getCalculatorContext()));
                             return ReaderStateType.FAILURE;
                         }
                 )
@@ -264,7 +264,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> input == '\n',
                         input -> {
-                            getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList()));
+                            getAccumulator().setCommand(new EvalCommand(getAccumulator().getElementsList(), getAccumulator().getCalculatorContext()));
                             return ReaderStateType.FINISHING;
                         }
                 ),
@@ -282,7 +282,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                                 getAccumulator().getElementsList().add(new OperationEndToken());
                                 return ReaderStateType.WAITING_FOR_END_SYMBOL;
                             } else {
-                                getAccumulator().setCommand(new InvalidInput("Invalid input. Unbalanced number of end token reached. ('" + input + "':" + inputsCounter + ")"));
+                                getAccumulator().setCommand(new InvalidInput("Invalid input. Unbalanced number of end token reached. ('" + input + "':" + inputsCounter + ")", getAccumulator().getCalculatorContext()));
                                 return ReaderStateType.FAILURE;
                             }
                         }
@@ -291,7 +291,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> true,
                         input -> {
-                            getAccumulator().setCommand(new InvalidInput("Invalid input. Invalid symbol. ('" + input + "':" + inputsCounter +")"));
+                            getAccumulator().setCommand(new InvalidInput("Invalid input. Invalid symbol. ('" + input + "':" + inputsCounter +")", getAccumulator().getCalculatorContext()));
                             return ReaderStateType.FAILURE;
                         }
                 )
@@ -306,7 +306,7 @@ public class ParsingMachine extends FSM<ReaderStateType, ReaderAccumulator, Char
                 new ConditionAndAction(
                         input -> true,
                         input -> {
-                            getAccumulator().setCommand(new InvalidInput("Invalid input. Illegal character. ('" + input + "':" + inputsCounter +")"));
+                            getAccumulator().setCommand(new InvalidInput("Invalid input. Illegal character. ('" + input + "':" + inputsCounter +")", getAccumulator().getCalculatorContext()));
                             return ReaderStateType.FAILURE;
                         }
                 )

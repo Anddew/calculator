@@ -1,19 +1,20 @@
 package main.calculator.command;
 
+import main.calculator.CalculatorContext;
+
 public class InvalidInput implements ICommand {
 
     private String comment;
+    private CalculatorContext calculatorContext;
 
-    public InvalidInput(String comment) {
+    public InvalidInput(String comment, CalculatorContext calculatorContext) {
         this.comment = comment;
+        this.calculatorContext = calculatorContext;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public CommandMarker getCommandMarker() {
-        return CommandMarker.INVALID_INPUT_MARKER;
+    @Override
+    public void execute() {
+        calculatorContext.getWriter().write(comment);
     }
 
 }

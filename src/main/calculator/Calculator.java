@@ -1,40 +1,34 @@
 package main.calculator;
 
-import main.calculator.command.logic.CommandLogicFactory;
-import main.calculator.command.CommandsMap;
-import main.calculator.command.ICommand;
-import main.calculator.command.InvalidInput;
-import main.calculator.command.creator.ICommandCreator;
+import main.calculator.command.*;
+import main.calculator.command.creator.*;
 import main.calculator.input.IReader;
 import main.calculator.output.IWriter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class Calculator {
 
-    private CommandLogicFactory factory = new CommandLogicFactory();
     private CalculatorContext calculatorContext;
     private IReader reader;
     private IWriter writer;
+    private CommandCreatorFactory commandCreatorFactory = new CommandCreatorFactory();
+
+    private final Map<String, ICommandCreator> commands = new HashMap<>();
 
     public Calculator(IReader reader, IWriter writer) {
+        this.calculatorContext = new CalculatorContext(writer);
         this.reader = reader;
         this.writer = writer;
-        this.calculatorContext = new CalculatorContext(writer);
     }
 
     void startCalculator() {
-        while ( !calculatorContext.isQuitCondition() ) {
-            ICommand command;
+        while(!calculatorContext.isQuitCondition()) {
             String input = reader.read();
             if(input != null) {
                 if(!input.isEmpty()) {
-                    String[] commandParts = input.split("\\s+|$", 2);
-                    ICommandCreator commandCreator = CommandsMap.commands.get(commandParts[0]);
-                    if(commandCreator != null) {
-                        command = commandCreator.createCommand(input.length() - commandParts[1].length(), commandParts[1]);
-                    } else {
-                        command = new InvalidInput("Invalid input. Invalid command name. ('" + commandParts[0] + "':" + (input.length() - commandParts[1].length()) + ")");
-                    }
-                    factory.getLogic(command, calculatorContext).useLogic();
+                    commandCreatorFactory.createCommand(input, calculatorContext).execute();
                 }
             } else {
                 calculatorContext.setQuitCondition();
@@ -43,4 +37,5 @@ class Calculator {
         reader.close();
         writer.close();
     }
+
 }

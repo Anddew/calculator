@@ -1,14 +1,22 @@
 package main.calculator.command;
 
-public class QuitCommand implements ICommand {
+import main.calculator.CalculatorContext;
 
-    @Override
-    public CommandMarker getCommandMarker() {
-        return CommandMarker.QUIT_MARKER;
-    }
+public class QuitCommand implements ICommand {
 
     public static String getName() {
         return "quit";
+    }
+
+    private CalculatorContext calculatorContext;
+
+    public QuitCommand(CalculatorContext calculatorContext) {
+        this.calculatorContext = calculatorContext;
+    }
+
+    @Override
+    public void execute() {
+        calculatorContext.setQuitCondition();
     }
 
 }
