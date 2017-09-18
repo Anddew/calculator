@@ -1,9 +1,0 @@
-package calculator.reader;
-
-public interface IReader {
-
-    String read();
-
-    void close();
-
-}
