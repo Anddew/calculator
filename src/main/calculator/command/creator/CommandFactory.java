@@ -6,11 +6,11 @@ import main.calculator.command.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommandCreatorFactory {
+public class CommandFactory {
 
     private final Map<String, ICommandCreator> commands = new HashMap<>();
 
-    public CommandCreatorFactory() {
+    public CommandFactory() {
         commands.put(EvalCommand.getName(), new EvalCommandCreator());
         commands.put(HelpCommand.getName(), new HelpCommandCreator());
         commands.put(QuitCommand.getName(), new QuitCommandCreator());

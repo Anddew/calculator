@@ -1,6 +1,5 @@
 package main.calculator;
 
-import main.calculator.command.*;
 import main.calculator.command.creator.*;
 import main.calculator.input.IReader;
 import main.calculator.output.IWriter;
@@ -13,7 +12,7 @@ class Calculator {
     private CalculatorContext calculatorContext;
     private IReader reader;
     private IWriter writer;
-    private CommandCreatorFactory commandCreatorFactory = new CommandCreatorFactory();
+    private CommandFactory commandFactory = new CommandFactory();
 
     private final Map<String, ICommandCreator> commands = new HashMap<>();
 
@@ -28,7 +27,7 @@ class Calculator {
             String input = reader.read();
             if(input != null) {
                 if(!input.isEmpty()) {
-                    commandCreatorFactory.createCommand(input, calculatorContext).execute();
+                    commandFactory.createCommand(input, calculatorContext).execute();
                 }
             } else {
                 calculatorContext.setQuitCondition();
